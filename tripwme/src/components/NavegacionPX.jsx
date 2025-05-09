@@ -11,7 +11,7 @@ export default function NavegacionPX() {
             <li className="cursor-pointer max-sm:text-sm font-semibold hover-nav transform"><Link to="/viajes">Viajes</Link></li>
             <img src="img/imagen_2025-04-02_110941347-removebg-preview.png" alt="logo" className="hidden md:block md:w-25 lg:w-35 logo-mov" />
             <li className="cursor-pointer max-sm:text-sm font-semibold hover-nav transform"><Link to="/reventas">Reventas</Link></li>
-            <li className="cursor-pointer max-sm:text-sm font-semibold hover-nav transform"><Link to="/perfil">Mi perfil</Link></li>
+            <li className="cursor-pointer max-sm:text-sm font-semibold hover-nav transform"><Link to="/cuenta">Mi cuenta</Link></li>
           </ul>
         </nav>
       </>

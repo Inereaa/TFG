@@ -8,7 +8,7 @@ export default function Navegacion() {
   
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/"); // Redirigir al inicio después de cerrar sesión
+    navigate("/");
   };
 
   return (
@@ -25,7 +25,7 @@ export default function Navegacion() {
           <Link to="/reventas">Reventas</Link>
         </li>
         <li className="list-none cursor-pointer max-sm:text-sm font-semibold hover-nav transform mr-12">
-          <Link to="/perfil">Mi perfil</Link>
+          <Link to="/cuenta">Mi cuenta</Link>
         </li>
         {isLoggedIn ? (
           <button

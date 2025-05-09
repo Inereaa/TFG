@@ -30,4 +30,20 @@ class UserController extends AbstractController
 
         return new JsonResponse(['message' => 'Usuario creado', 'id' => $user->getId()], 201);
     }
+
+    #[Route('/api/cuenta', name: 'mi_cuenta', methods: ['GET'])]
+    public function miCuenta(): JsonResponse
+    {
+        $usuario = $this->getUser();
+
+        return new JsonResponse([
+            'id' => $usuario->getId(),
+            'username' => $usuario->getUsername(),
+            'email' => $usuario->getEmail(),
+            'telefono' => $usuario->getTelefono(),
+            'viajes_realizados' => $usuario->getViajesRealizados(),
+            'nivel' => $usuario->getNivel(),
+            'foto' => $usuario->getFoto(),
+        ]);
+    }
 }

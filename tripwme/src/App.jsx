@@ -8,7 +8,7 @@ import Resultados from "./pages/Resultados";
 import Viajes from "./pages/Viajes";
 import CrearViaje from "./pages/CrearViaje";
 import Login from "./pages/Login";
-import Perfil from "./pages/Perfil";
+import Cuenta from "./pages/Cuenta";
 
 export default function App() {
   const [carrito, setCarrito] = useState([])
@@ -26,7 +26,7 @@ export default function App() {
           <Route path="/crearviaje" element={ <CrearViaje /> } />
           <Route path="/reventas" element="" />
 
-          <Route path="/perfil" element={ <Perfil /> } />
+          <Route path="/cuenta" element={ <Cuenta /> } />
           <Route path="/login" element={ <Login /> } />
         </Routes>
       </BrowserRouter>

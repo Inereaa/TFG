@@ -17,54 +17,69 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Intentar login
       const loginResponse = await fetch("http://localhost:8000/api/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(usuario),
       });
-
+  
       if (loginResponse.ok) {
         const loginData = await loginResponse.json();
         alert("Inicio de sesión exitoso.");
         localStorage.setItem("token", loginData.token);
         navigate("/viajes");
-
+  
       } else if (loginResponse.status === 401) {
+        // Crear usuario
         const crearUsuario = {
           email: usuario.email,
           password: usuario.password,
           username: usuario.email,
         };
-
+  
         const crearResponse = await fetch("http://localhost:8000/api/usuarios", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(crearUsuario),
         });
-
+  
         if (crearResponse.ok) {
-          const crearData = await crearResponse.json();
           alert("Usuario creado correctamente.");
-          localStorage.setItem("token", crearData.token);
-          navigate("/viajes");
-
+  
+          // Hacer login inmediatamente para obtener token
+          const nuevoLoginResponse = await fetch("http://localhost:8000/api/usuarios/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(usuario),
+          });
+  
+          if (nuevoLoginResponse.ok) {
+            const nuevoLoginData = await nuevoLoginResponse.json();
+            localStorage.setItem("token", nuevoLoginData.token);
+            navigate("/viajes");
+          } else {
+            alert("Usuario creado pero no se pudo iniciar sesión.");
+          }
+  
         } else {
           const errorData = await crearResponse.json();
           console.error("Error al crear usuario:", errorData);
           alert("No se pudo crear el usuario.");
         }
-
+  
       } else {
         const text = await loginResponse.text();
         console.error("Respuesta inesperada del login:", loginResponse.status, text);
         alert(`Error inesperado al iniciar sesión. Código: ${loginResponse.status}`);
       }
-
+  
     } catch (error) {
       console.error("Error en el proceso:", error);
       alert("Error inesperado en el proceso.");
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-[#f6fbf0] flex flex-col">

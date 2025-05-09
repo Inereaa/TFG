@@ -51,6 +51,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: UsuarioViaje::class, mappedBy: 'usuario')]
     private Collection $usuarioViajes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telefono = null;
+
+    #[ORM\Column]
+    private ?int $viajesRealizados = 0;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nivel = 'Básico';
+
     public function __construct()
     {
         $this->viajes = new ArrayCollection();
@@ -212,6 +221,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $usuarioViaje->setUsuario(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTelefono(): ?string
+    {
+        return $this->telefono;
+    }
+
+    public function setTelefono(?string $telefono): static
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    public function getViajesRealizados(): ?int
+    {
+        return $this->viajesRealizados;
+    }
+
+    public function setViajesRealizados(int $viajesRealizados): static
+    {
+        $this->viajesRealizados = $viajesRealizados;
+
+        return $this;
+    }
+
+    public function getNivel(): ?string
+    {
+        return $this->nivel;
+    }
+
+    public function setNivel(string $nivel): static
+    {
+        $this->nivel = $nivel;
 
         return $this;
     }
