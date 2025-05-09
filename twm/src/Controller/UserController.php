@@ -46,4 +46,28 @@ class UserController extends AbstractController
             'foto' => $usuario->getFoto(),
         ]);
     }
+
+    #[Route('/api/cuenta', name: 'mi_cuenta_update', methods: ['PUT'])]
+    public function update(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $user = $this->getUser();
+
+        $data = json_decode($request->getContent(), true);
+        
+        if (isset($data['telefono'])) {
+            $user->setTelefono($data['telefono']);
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->json([
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+            'email' => $user->getEmail(),
+            'telefono' => $user->getTelefono(),
+            'viajes_realizados' => $user->getViajesRealizados(),
+            'nivel' => $user->getNivel(),
+            'foto' => $user->getFoto(),
+        ]);
+    }
 }
