@@ -1,18 +1,28 @@
+
 import Navegacion from "../components/Navegacion";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Cuenta() {
   const [usuario, setUsuario] = useState(null);
+  const [cargando, setCargando] = useState(true);
   const [editando, setEditando] = useState(false);
   const [nuevoTelefono, setNuevoTelefono] = useState("");
-  const [prefijo, setPrefijo] = useState("+34"); // Valor inicial para España
+  const [prefijo, setPrefijo] = useState("+34");
   const [errorTelefono, setErrorTelefono] = useState("");
+  const navigate = useNavigate();
 
   const prefijosComunes = ["+34", "+1", "+44", "+33", "+49", "+39", "+52", "+55"];
 
   useEffect(() => {
     const fetchPerfil = async () => {
       const token = localStorage.getItem("token");
+
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
       try {
         const res = await fetch("http://localhost:8000/api/cuenta", {
           headers: {
@@ -20,10 +30,14 @@ export default function Cuenta() {
           },
         });
 
+        if (res.status === 401) {
+          localStorage.removeItem("token");
+          navigate("/login");
+          return;
+        }
+
         if (!res.ok) {
-          const errorText = await res.text();
-          console.error("Respuesta con error:", errorText);
-          throw new Error(`Error al obtener la cuenta: ${res.status}`);
+          throw new Error("Error al obtener cuenta");
         }
 
         const data = await res.json();
@@ -31,16 +45,18 @@ export default function Cuenta() {
         setNuevoTelefono(data.telefono ? data.telefono.slice(-9) : "");
         setPrefijo(data.telefono ? data.telefono.slice(0, data.telefono.length - 9) : "+34");
       } catch (error) {
-        console.error("Error al obtener el perfil:", error);
+        console.error("Error:", error);
+        navigate("/login");
+      } finally {
+        setCargando(false);
       }
     };
 
     fetchPerfil();
-  }, []);
+  }, [navigate]);
 
-  if (!usuario) {
-    return <p>Cargando cuenta...</p>;
-  }
+  if (cargando) return <p className="p-6 text-center">Cargando cuenta...</p>;
+  if (!usuario) return null;
 
   const nombreSinArroba = usuario.email.split("@")[0];
 
@@ -82,12 +98,8 @@ export default function Cuenta() {
 
   const formatearTelefono = (telefonoCompleto) => {
     if (!telefonoCompleto) return "----";
-
     const match = telefonoCompleto.match(/^(\+\d{2})(\d{3})(\d{3})(\d{3})$/);
-    if (match) {
-      return `${match[1]} ${match[2]} ${match[3]} ${match[4]}`;
-    }
-
+    if (match) return `${match[1]} ${match[2]} ${match[3]} ${match[4]}`;
     return telefonoCompleto;
   };
 
@@ -108,14 +120,12 @@ export default function Cuenta() {
           </div>
         </div>
 
-        {/* Datos Personales */}
         <div className="bg-white rounded-2xl shadow p-6 mb-8">
           <h3 className="text-xl font-bold mb-4">Datos Personales</h3>
 
-          <p className="mb-2"><span className="font-semibold">Nombre de usuario: </span>{nombreSinArroba}</p>
+          <p className="mb-2"><span className="font-semibold">Nombre de usuario <span className="text-xs">(no se puede cambiar)</span>: </span>{nombreSinArroba}</p>
           <p className="mb-2"><span className="font-semibold">Email: </span>{usuario.email}</p>
 
-          {/* Teléfono */}
           {editando ? (
             <div className="mb-2 flex items-center justify-between">
               <div className="flex items-center">
@@ -178,7 +188,6 @@ export default function Cuenta() {
           )}
         </div>
 
-        {/* Seguridad */}
         <div className="bg-white rounded-2xl shadow p-6 mb-8">
           <h3 className="text-xl font-bold mb-4">Seguridad</h3>
           <button className="text-red-700 font-semibold mb-2 block">Cambiar contraseña</button>
