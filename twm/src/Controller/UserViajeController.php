@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserViajeController extends AbstractController
 {
-    #[Route('/unirse/{id}', name: 'unirse_viaje', methods: ['POST'])]
+    #[Route('api/unirse/{id}', name: 'unirse_viaje', methods: ['POST'])]
     public function unirseAViaje(Viaje $viaje, EntityManagerInterface $em): JsonResponse
     {
         $usuario = $this->getUser();
@@ -42,7 +42,7 @@ class UserViajeController extends AbstractController
         return new JsonResponse(['message' => 'Te uniste al viaje con éxito']);
     }
 
-    #[Route('/mis-viajes', name: 'mis_viajes', methods: ['GET'])]
+    #[Route('api/mis-viajes', name: 'mis_viajes', methods: ['GET'])]
     public function verMisViajes(UsuarioViajeRepository $usuarioViajeRepo): JsonResponse
     {
         $usuario = $this->getUser();
@@ -73,6 +73,10 @@ class UserViajeController extends AbstractController
 
         if ($usuarioViaje->getUsuario()->getId() !== $usuario->getId()) {
             return new JsonResponse(['error' => 'No puedes revender un viaje que no te pertenece'], 403);
+        }
+
+        if (!isset($data['precio']) || !is_numeric($data['precio']) || $data['precio'] < 0) {
+            return new JsonResponse(['error' => 'Precio inválido'], 400);
         }
 
         $data = json_decode($request->getContent(), true);
@@ -107,6 +111,7 @@ class UserViajeController extends AbstractController
         $usuarioViaje->setRevendido(false);
         $em->persist($nuevoUsuarioViaje);
         $em->flush();
+        $em->remove($usuarioViaje);
 
         return new JsonResponse(['message' => 'Compra realizada con éxito']);
     }

@@ -5,25 +5,31 @@ import { useNavigate } from "react-router-dom";
 export default function TarjetaViaje({ viaje }) {
     const [usuarioAutenticado, setUsuarioAutenticado] = useState(false);
     const [misViajes, setMisViajes] = useState([]);
+    const [numParticipantes, setNumParticipantes] = useState(0);
     const navigate = useNavigate();
   
     useEffect(() => {
         const token = localStorage.getItem("token");
         setUsuarioAutenticado(!!token);
-      
-        fetch("/mis-viajes", { credentials: "include" })
-          .then((res) => res.ok && res.json())
-          .then((data) => setMisViajes(data));
-      }, []);
+
+        fetch("/api/mis-viajes", { credentials: "include" })
+        .then((res) => res.ok && res.json())
+        .then((data) => setMisViajes(data));
+
+        fetch(`/api/viajes/${viaje.id}/participantes`, { credentials: "include" })
+        .then((res) => res.ok && res.json())
+        .then((data) => setNumParticipantes(data.count || 0));
+    }, [viaje.id]);
   
-    const yaInscrito = misViajes.some((v) => v.viajeId === viaje.id);
+    const yaInscrito = misViajes.some((v) => Number(v.viajeId) === Number(viaje.id));
+    const viajeLleno = numParticipantes >= viaje.maxPersonas;
   
     const unirse = async () => {
         console.log("Intentando unirse al viaje:", viaje.id);
         
         const token = localStorage.getItem("token");
         console.log("Token:", token);
-        const res = await fetch(`http://localhost:8000/unirse/${viaje.id}`, {
+        const res = await fetch(`http://localhost:8000/api/unirse/${viaje.id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -55,18 +61,41 @@ export default function TarjetaViaje({ viaje }) {
     };
   
     const renderBoton = () => {
-        if (!usuarioAutenticado) return <p className="text-sm italic mt-2">Inicia sesión para unirte</p>;
-  
-        return yaInscrito ? (
-        <button onClick={cancelar} className="bg-yellow-600 text-white px-4 py-2 mt-2 rounded-xl font-bold">
-            Cancelar plaza
-        </button>
-        ) : (
-        <button onClick={unirse} className="bg-red-500 text-white px-4 py-2 mt-2 rounded-xl font-bold cursor-pointer hover:bg-red-700 transition duration-300">
-            Solicitar ingreso
-        </button>
+        console.log("yaInscrito:", yaInscrito);
+        if (!usuarioAutenticado) {
+            return <p className="text-sm italic mt-2">Inicia sesión para unirte</p>;
+        }
+
+        if (yaInscrito) {
+            return (
+                <>
+                    <button
+                        onClick={cancelar}
+                        className="bg-yellow-600 text-white px-4 py-2 mt-2 rounded-xl font-bold"
+                    >
+                        Cancelar plaza
+                    </button>
+                    <small className="mt-2 opacity-60">¡Ya te has unido a este viaje!</small>
+                </>
+            );
+        }
+
+        if (viajeLleno) {
+            return <p className="text-sm font-bold text-red-600 mt-2">¡Este viaje ya está cerrado!</p>;
+        }
+
+        return (
+            <>
+                <button
+                    onClick={unirse}
+                    className="bg-red-500 text-white px-4 py-2 mt-2 rounded-xl font-bold cursor-pointer hover:bg-red-700 transition duration-300"
+                >
+                    Solicitar ingreso
+                </button>
+                <small className="mt-2 opacity-60"><i>¿Te interesa? ¡Pues únete! ^</i></small>
+            </>
         );
-    };
+    }
 
     const continentePorDestino = {
         Europa: [
@@ -143,7 +172,6 @@ export default function TarjetaViaje({ viaje }) {
               <p className="text-lg font-bold">día/s restante/s</p>
             </div>
             {renderBoton()}
-            <small className="mt-2 opacity-60"><i>¿Te interesa? ¡Pues únete! ^</i></small>
           </div>
         </div>
       );

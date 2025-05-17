@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Viaje;
 use App\Entity\User;
+use App\Entity\UsuarioViaje;
 use App\Repository\ViajeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,7 +37,23 @@ class ViajeController extends AbstractController
         $em->persist($viaje);
         $em->flush();
 
+        $usuarioViaje = new UsuarioViaje();
+        $usuarioViaje->setUsuario($usuario);
+        $usuarioViaje->setViaje($viaje);
+        $usuarioViaje->setRevendido(false);
+        $usuarioViaje->setPrecioReventa(0.0);
+
+        $em->persist($usuarioViaje);
+        $em->flush();
+
         return new JsonResponse(['message' => 'Viaje creado con éxito', 'id' => $viaje->getId()], 201);
+    }
+
+    #[Route('/api/viajes/{id}/participantes', name: 'contar_participantes', methods: ['GET'])]
+    public function contarParticipantes(Viaje $viaje, UsuarioViajeRepository $repo): JsonResponse
+    {
+        $total = $repo->count(['viaje' => $viaje]);
+        return new JsonResponse(['total' => $total]);
     }
 
     #[Route('/api/viajes', name: 'listar_viajes', methods: ['GET'])]

@@ -13,7 +13,8 @@ export default function Cuenta() {
   const navigate = useNavigate();
   const inputFotoRef = useRef();
   const baseURL = "http://localhost:8000";
-
+  const [viajes, setViajes] = useState([]);
+  const [cargandoViajes, setCargandoViajes] = useState(true);
   const prefijosComunes = ["+34", "+1", "+44", "+33", "+49", "+39", "+52", "+55"];
 
   useEffect(() => {
@@ -56,6 +57,33 @@ export default function Cuenta() {
 
     fetchPerfil();
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchViajes = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const res = await fetch("http://localhost:8000/api/mis-viajes", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setViajes(data);
+        } else {
+          console.error("Error al obtener viajes");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setCargandoViajes(false);
+      }
+    };
+
+    fetchViajes();
+  }, []);
 
   if (cargando) return <p className="p-6 text-center">Cargando cuenta...</p>;
   if (!usuario) return null;
@@ -166,6 +194,30 @@ export default function Cuenta() {
             <p className="text-red-700 font-semibold">Nivel: {usuario.nivel}</p>
             <p className="text-gray-600">Has realizado {usuario.viajes_realizados} viajes</p>
           </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow p-6 mb-8">
+          <h3 className="text-xl font-bold mb-4">Tus próximos viajes</h3>
+
+          {cargandoViajes ? (
+            <p>Cargando viajes...</p>
+          ) : viajes.length === 0 ? (
+            <p className="text-gray-500">No tienes viajes programados.</p>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-4">
+              {viajes.map((viaje) => (
+                <div key={viaje.viajeId} className="border border-red-100 rounded-xl p-4 shadow hover:shadow-lg transition duration-300">
+                  <h4 className="text-lg font-semibold text-red-700">{viaje.destino}</h4>
+                  <p className="text-gray-600 text-sm mb-2">Fecha: {viaje.fechaInicio}</p>
+                  {viaje.revendido ? (
+                    <p className="text-yellow-600 font-semibold">En reventa por {viaje.precioReventa}€</p>
+                  ) : (
+                    <p className="text-green-700 font-medium">Vigente</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="bg-white rounded-2xl shadow p-6 mb-8">
