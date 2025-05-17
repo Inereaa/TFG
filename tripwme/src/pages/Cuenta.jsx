@@ -1,6 +1,6 @@
 
 import Navegacion from "../components/Navegacion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Cuenta() {
@@ -11,6 +11,8 @@ export default function Cuenta() {
   const [prefijo, setPrefijo] = useState("+34");
   const [errorTelefono, setErrorTelefono] = useState("");
   const navigate = useNavigate();
+  const inputFotoRef = useRef();
+  const baseURL = "http://localhost:8000";
 
   const prefijosComunes = ["+34", "+1", "+44", "+33", "+49", "+39", "+52", "+55"];
 
@@ -103,17 +105,63 @@ export default function Cuenta() {
     return telefonoCompleto;
   };
 
+  const subirFotoPerfil = async (e) => {
+    const archivo = e.target.files[0];
+    if (!archivo) return;
+
+    const formData = new FormData();
+    formData.append("foto", archivo);
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await fetch("http://localhost:8000/api/subir-foto", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error("Error al subir la foto");
+      }
+
+      const data = await res.json();
+      setUsuario((prev) => ({ ...prev, foto: data.foto }));
+    } catch (error) {
+      console.error("Error subiendo foto:", error);
+    }
+  };
+
   return (
     <>
       <Navegacion />
       <div className="max-w-4xl mx-auto p-6">
         <div className="flex items-center bg-white rounded-2xl shadow p-6 mb-8">
-          <img
-            src={usuario.foto}
-            alt="Foto perfil"
-            className="w-24 h-24 rounded-full mr-6 border-2 border-red-700"
-          />
-          <div>
+          <div className="relative group w-24 h-24 rounded-full overflow-hidden cursor-pointer border-2 border-red-700">
+            <img
+              src={usuario.foto ? `${baseURL}${usuario.foto}` : "/img/perfil.png"}
+              alt="Foto perfil"
+              className="w-full h-full object-cover rounded-full"
+              onClick={() => inputFotoRef.current.click()}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={inputFotoRef}
+              onChange={subirFotoPerfil}
+            />
+            <div className="absolute inset-0 bg-[rgba(31,41,55,0.5)] flex items-center justify-center text-white text-sm font-semibold rounded-full opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg" 
+                  className="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M16.768 4.768a2 2 0 112.828 2.828L7 20.172H4v-3L16.768 4.768z" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="ml-6">
             <h2 className="text-2xl font-bold mb-1">Hola, {nombreSinArroba}</h2>
             <p className="text-red-700 font-semibold">Nivel: {usuario.nivel}</p>
             <p className="text-gray-600">Has realizado {usuario.viajes_realizados} viajes</p>

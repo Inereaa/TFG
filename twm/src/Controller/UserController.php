@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UserController extends AbstractController
 {
@@ -69,5 +70,28 @@ class UserController extends AbstractController
             'nivel' => $user->getNivel(),
             'foto' => $user->getFoto(),
         ]);
+    }
+
+    #[Route('/api/subir-foto', name: 'api_subir_foto', methods: ['POST'])]
+    public function subirFoto(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): JsonResponse
+    {
+        $usuario = $this->getUser();
+        $foto = $request->files->get('foto');
+
+        if (!$foto) {
+            return new JsonResponse(['error' => 'No se envió ningún archivo.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $nombreOriginal = pathinfo($foto->getClientOriginalName(), PATHINFO_FILENAME);
+        $nombreSeguro = $slugger->slug($nombreOriginal);
+        $nuevoNombre = $nombreSeguro . '-' . uniqid() . '.' . $foto->guessExtension();
+
+        $foto->move($this->getParameter('uploads_directory'), $nuevoNombre);
+
+        $usuario->setFoto('/uploads/' . $nuevoNombre);
+        $em->persist($usuario);
+        $em->flush();
+
+        return new JsonResponse(['foto' => $usuario->getFoto()]);
     }
 }
