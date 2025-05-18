@@ -31,7 +31,7 @@ export default function Actividades() {
             >
             {act.foto && (
                 <img
-                src={act.foto.startsWith("http") ? act.foto : `/img/${act.foto}`}
+                src={`/img/${act.foto}`}
                 alt={act.nombre}
                 className="w-full h-48 object-cover rounded-xl mb-4"
                 />
