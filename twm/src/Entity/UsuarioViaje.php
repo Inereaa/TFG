@@ -19,12 +19,6 @@ class UsuarioViaje
     #[ORM\ManyToOne(inversedBy: 'usuarioViajes')]
     private ?Viaje $viaje = null;
 
-    #[ORM\Column]
-    private ?bool $revendido = null;
-
-    #[ORM\Column]
-    private ?float $precioReventa = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -50,30 +44,6 @@ class UsuarioViaje
     public function setViaje(?Viaje $viaje): static
     {
         $this->viaje = $viaje;
-
-        return $this;
-    }
-
-    public function isRevendido(): ?bool
-    {
-        return $this->revendido;
-    }
-
-    public function setRevendido(bool $revendido): static
-    {
-        $this->revendido = $revendido;
-
-        return $this;
-    }
-
-    public function getPrecioReventa(): ?float
-    {
-        return $this->precioReventa;
-    }
-
-    public function setPrecioReventa(float $precioReventa): static
-    {
-        $this->precioReventa = $precioReventa;
 
         return $this;
     }

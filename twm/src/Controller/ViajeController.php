@@ -40,8 +40,6 @@ class ViajeController extends AbstractController
         $usuarioViaje = new UsuarioViaje();
         $usuarioViaje->setUsuario($usuario);
         $usuarioViaje->setViaje($viaje);
-        $usuarioViaje->setRevendido(false);
-        $usuarioViaje->setPrecioReventa(0.0);
 
         $em->persist($usuarioViaje);
         $em->flush();

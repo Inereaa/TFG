@@ -1,12 +1,10 @@
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function TarjetaViaje({ viaje }) {
     const [usuarioAutenticado, setUsuarioAutenticado] = useState(false);
     const [misViajes, setMisViajes] = useState([]);
     const [numParticipantes, setNumParticipantes] = useState(0);
-    const navigate = useNavigate();
   
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -54,7 +52,6 @@ export default function TarjetaViaje({ viaje }) {
       const data = await res.json();
       if (res.ok) {
         alert("Plaza cancelada");
-        navigate(`/reventa/${viaje.id}`);
       } else {
         alert(data.error || "Error al cancelar");
       }
@@ -63,7 +60,7 @@ export default function TarjetaViaje({ viaje }) {
     const renderBoton = () => {
         console.log("yaInscrito:", yaInscrito);
         if (!usuarioAutenticado) {
-            return <p className="text-sm italic mt-2">Inicia sesión para unirte</p>;
+            return <p className="text-sm italic mt-2">Inicia sesión para saber más</p>;
         }
 
         if (yaInscrito) {

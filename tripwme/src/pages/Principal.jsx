@@ -3,7 +3,7 @@ import BuscarPX from "../components/BuscarPX";
 import NavegacionPX from "../components/NavegacionPX";
 import FooterPX from "../components/FooterPX";
 
-export default function Principal({ setCarrito, carrito }) {
+export default function Principal() {
     return (
       <div className="bg-MAIN relative min-h-screen">
         <div className="relative z-10">

@@ -22,7 +22,7 @@ export default function Navegacion() {
           <Link to="/viajes">Viajes</Link>
         </li>
         <li className="list-none cursor-pointer max-sm:text-sm font-semibold hover-nav transform">
-          <Link to="/reventas">Reventas</Link>
+          <Link to="/actividades">Actividades</Link>
         </li>
         <li className="list-none cursor-pointer max-sm:text-sm font-semibold hover-nav transform mr-12">
           <Link to="/cuenta">Mi cuenta</Link>
