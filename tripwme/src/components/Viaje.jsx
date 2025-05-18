@@ -10,13 +10,36 @@ export default function TarjetaViaje({ viaje }) {
         const token = localStorage.getItem("token");
         setUsuarioAutenticado(!!token);
 
-        fetch("/api/mis-viajes", { credentials: "include" })
-        .then((res) => res.ok && res.json())
-        .then((data) => setMisViajes(data));
+        fetch("http://localhost:8000/api/mis-viajes", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(async (res) => {
+            if (!res.ok) {
+            const text = await res.text();
+            console.error("Error en mis-viajes:", text);
+            throw new Error("Error al obtener mis viajes");
+            }
+            return res.json();
+        })
+        .then((data) => setMisViajes(data))
+        .catch((err) => console.error(err));
 
-        fetch(`/api/viajes/${viaje.id}/participantes`, { credentials: "include" })
-        .then((res) => res.ok && res.json())
-        .then((data) => setNumParticipantes(data.count || 0));
+        fetch(`http://localhost:8000/api/viajes/${viaje.id}/participantes`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(async (res) => {
+            if (!res.ok) {
+                const text = await res.text();
+                console.error("Error en participantes:", text);
+                throw new Error("Error al obtener participantes");
+            }
+            return res.json();
+        })
+        .then((data) => setNumParticipantes(data.count || 0))
     }, [viaje.id]);
   
     const yaInscrito = misViajes.some((v) => Number(v.viajeId) === Number(viaje.id));
@@ -44,21 +67,25 @@ export default function TarjetaViaje({ viaje }) {
     };    
   
     const cancelar = async () => {
-      const usuarioViaje = misViajes.find((v) => v.viajeId === viaje.id);
-      const res = await fetch(`/cancelar-plaza/${usuarioViaje.id}`, {
+        const usuarioViaje = misViajes.find((v) => v.viajeId === viaje.id);
+        const token = localStorage.getItem("token");
+        const res = await fetch(`/cancelar-plaza/${usuarioViaje.id}`, {
         method: "DELETE",
-        credentials: "include",
-      });
-      const data = await res.json();
-      if (res.ok) {
-        alert("Plaza cancelada");
-      } else {
-        alert(data.error || "Error al cancelar");
-      }
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert("Plaza cancelada");
+            setMisViajes((prev) => prev.filter((v) => v.id !== usuarioViaje.id));
+        } else {
+            alert(data.error || "Error al cancelar");
+        }
     };
-  
+
     const renderBoton = () => {
-        console.log("yaInscrito:", yaInscrito);
         if (!usuarioAutenticado) {
             return <p className="text-sm italic mt-2">Inicia sesión para saber más</p>;
         }
@@ -68,7 +95,7 @@ export default function TarjetaViaje({ viaje }) {
                 <>
                     <button
                         onClick={cancelar}
-                        className="bg-yellow-600 text-white px-4 py-2 mt-2 rounded-xl font-bold"
+                        className="bg-yellow-600 text-white px-4 py-2 mt-2 rounded-xl font-bold hover:bg-yellow-700 transition duration-300 cursor-pointer"
                     >
                         Cancelar plaza
                     </button>
@@ -87,7 +114,7 @@ export default function TarjetaViaje({ viaje }) {
                     onClick={unirse}
                     className="bg-red-500 text-white px-4 py-2 mt-2 rounded-xl font-bold cursor-pointer hover:bg-red-700 transition duration-300"
                 >
-                    Solicitar ingreso
+                    Unirme
                 </button>
                 <small className="mt-2 opacity-60"><i>¿Te interesa? ¡Pues únete! ^</i></small>
             </>

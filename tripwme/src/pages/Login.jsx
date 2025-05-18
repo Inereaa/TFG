@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -17,7 +18,6 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Intentar login
       const loginResponse = await fetch("http://localhost:8000/api/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -31,7 +31,6 @@ export default function Login() {
         navigate("/viajes");
   
       } else if (loginResponse.status === 401) {
-        // Crear usuario
         const crearUsuario = {
           email: usuario.email,
           password: usuario.password,
@@ -47,7 +46,6 @@ export default function Login() {
         if (crearResponse.ok) {
           alert("Usuario creado correctamente.");
   
-          // Hacer login inmediatamente para obtener token
           const nuevoLoginResponse = await fetch("http://localhost:8000/api/usuarios/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
