@@ -69,7 +69,7 @@ export default function TarjetaViaje({ viaje }) {
     const cancelar = async () => {
         const usuarioViaje = misViajes.find((v) => v.viajeId === viaje.id);
         const token = localStorage.getItem("token");
-        const res = await fetch(`/cancelar-plaza/${usuarioViaje.id}`, {
+        const res = await fetch(`http://localhost:8000/cancelar-plaza/${usuarioViaje.id}`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -80,6 +80,7 @@ export default function TarjetaViaje({ viaje }) {
         if (res.ok) {
             alert("Plaza cancelada");
             setMisViajes((prev) => prev.filter((v) => v.id !== usuarioViaje.id));
+            setNumParticipantes((prev) => prev - 1);
         } else {
             alert(data.error || "Error al cancelar");
         }

@@ -61,4 +61,29 @@ class UserViajeController extends AbstractController
 
         return $this->json($data);
     }
+
+    #[Route('/cancelar-plaza/{id}', name: 'cancelar_plaza', methods: ['DELETE'])]
+    public function cancelarPlaza(int $id, EntityManagerInterface $em, UsuarioViajeRepository $repo): JsonResponse
+    {
+        $usuario = $this->getUser();
+
+        if (!$usuario) {
+            return new JsonResponse(['error' => 'Usuario no autenticado'], 401);
+        }
+
+        $usuarioViaje = $repo->find($id);
+
+        if (!$usuarioViaje) {
+            return new JsonResponse(['error' => 'Registro no encontrado'], 404);
+        }
+
+        if ($usuarioViaje->getUsuario()->getId() !== $usuario->getId()) {
+            return new JsonResponse(['error' => 'No tienes permiso para cancelar esta plaza'], 403);
+        }
+
+        $em->remove($usuarioViaje);
+        $em->flush();
+
+        return new JsonResponse(['message' => 'Plaza cancelada con éxito']);
+    }
 }
