@@ -5,10 +5,18 @@ export default function TarjetaViaje({ viaje }) {
     const [usuarioAutenticado, setUsuarioAutenticado] = useState(false);
     const [misViajes, setMisViajes] = useState([]);
     const [numParticipantes, setNumParticipantes] = useState(0);
+    const [userId, setUserId] = useState(null);
   
     useEffect(() => {
         const token = localStorage.getItem("token");
         setUsuarioAutenticado(!!token);
+
+        fetch("http://localhost:8000/api/me", {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(res => res.json())
+        .then(data => setUserId(data.id))
+        .catch(err => console.error("Error al obtener usuario:", err));
 
         fetch("http://localhost:8000/api/mis-viajes", {
             headers: {
@@ -44,6 +52,7 @@ export default function TarjetaViaje({ viaje }) {
   
     const yaInscrito = misViajes.some((v) => Number(v.viajeId) === Number(viaje.id));
     const viajeLleno = numParticipantes >= viaje.maxPersonas;
+    const esOrganizador = userId === viaje.usuarioOrganizador.id;
   
     const unirse = async () => {
         console.log("Intentando unirse al viaje:", viaje.id);
@@ -69,7 +78,7 @@ export default function TarjetaViaje({ viaje }) {
     const cancelar = async () => {
         const usuarioViaje = misViajes.find((v) => v.viajeId === viaje.id);
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:8000/cancelar-plaza/${usuarioViaje.id}`, {
+        const res = await fetch(`http://localhost:8000/api/cancelar-plaza/${usuarioViaje.id}`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -86,16 +95,54 @@ export default function TarjetaViaje({ viaje }) {
         }
     };
 
+    const handleCancelarPlaza = async () => {
+        const confirmar = confirm("¿Estás seguro de que quieres cancelar tu plaza?");
+        if (!confirmar) return;
+        await cancelar();
+    };
+
+    const handleCancelarViaje = async () => {
+        const confirmar = confirm("⚠️ Estás a punto de cancelar este viaje y eliminar a todos los participantes. ¿Estás seguro?");
+        if (!confirmar) return;
+
+        const token = localStorage.getItem("token");
+        const res = await fetch(`http://localhost:8000/api/cancelar-viaje/${viaje.id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert("Viaje cancelado con éxito");
+            window.location.reload();
+        } else {
+            alert(data.error || "Error al cancelar el viaje");
+        }
+    };
+
     const renderBoton = () => {
         if (!usuarioAutenticado) {
             return <p className="text-sm italic mt-2">Inicia sesión para saber más</p>;
+        }
+
+        if (esOrganizador) {
+            return (
+                <button
+                    onClick={handleCancelarViaje}
+                    className="bg-black text-white px-4 py-2 mt-2 rounded-xl font-bold hover:bg-gray-800 transition duration-300 cursor-pointer"
+                >
+                    Cancelar viaje
+                </button>
+            );
         }
 
         if (yaInscrito) {
             return (
                 <>
                     <button
-                        onClick={cancelar}
+                        onClick={handleCancelarPlaza}
                         className="bg-yellow-600 text-white px-4 py-2 mt-2 rounded-xl font-bold hover:bg-yellow-700 transition duration-300 cursor-pointer"
                     >
                         Cancelar plaza
@@ -120,7 +167,7 @@ export default function TarjetaViaje({ viaje }) {
                 <small className="mt-2 opacity-60"><i>¿Te interesa? ¡Pues únete! ^</i></small>
             </>
         );
-    }
+    };
 
     const continentePorDestino = {
         Europa: [

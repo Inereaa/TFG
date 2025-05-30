@@ -53,6 +53,7 @@ class UserViajeController extends AbstractController
 
         $data = array_map(function (UsuarioViaje $uv) {
             return [
+                'id' => $uv->getId(),
                 'viajeId' => $uv->getViaje()->getId(),
                 'destino' => $uv->getViaje()->getDestino(),
                 'fechaInicio' => $uv->getViaje()->getFechaInicio()->format('Y-m-d')
@@ -62,7 +63,23 @@ class UserViajeController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/cancelar-plaza/{id}', name: 'cancelar_plaza', methods: ['DELETE'])]
+    #[Route('/api/me', name: 'api_me', methods: ['GET'])]
+    public function me(): JsonResponse
+    {
+        $usuario = $this->getUser();
+        if (!$usuario) {
+            return new JsonResponse(['error' => 'Usuario no autenticado'], 401);
+        }
+
+        return new JsonResponse([
+            'id' => $usuario->getId(),
+            'email' => $usuario->getEmail(),
+            'nombre' => $usuario->getUsername()
+        ]);
+    }
+
+
+    #[Route('/api/cancelar-plaza/{id}', name: 'cancelar_plaza', methods: ['DELETE'])]
     public function cancelarPlaza(int $id, EntityManagerInterface $em, UsuarioViajeRepository $repo): JsonResponse
     {
         $usuario = $this->getUser();
@@ -86,4 +103,29 @@ class UserViajeController extends AbstractController
 
         return new JsonResponse(['message' => 'Plaza cancelada con éxito']);
     }
+
+    #[Route('/api/cancelar-viaje/{id}', name: 'cancelar_viaje', methods: ['DELETE'])]
+    public function cancelarViaje(int $id, EntityManagerInterface $em, ViajeRepository $viajeRepo): JsonResponse
+    {
+        $usuario = $this->getUser();
+        $viaje = $viajeRepo->find($id);
+
+        if (!$usuario || !$viaje) {
+            return new JsonResponse(['error' => 'Usuario o viaje no encontrado'], 404);
+        }
+
+        if ($viaje->getOrganizador()->getId() !== $usuario->getId()) {
+            return new JsonResponse(['error' => 'No tienes permiso para cancelar este viaje'], 403);
+        }
+
+        foreach ($viaje->getUsuarioViajes() as $uv) {
+            $em->remove($uv);
+        }
+
+        $em->remove($viaje);
+        $em->flush();
+
+        return new JsonResponse(['message' => 'Viaje cancelado con éxito']);
+    }
+
 }

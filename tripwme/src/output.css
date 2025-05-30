@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.7 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.8 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -14,8 +14,6 @@
     --color-red-600: oklch(57.7% 0.245 27.325);
     --color-red-700: oklch(50.5% 0.213 27.518);
     --color-red-800: oklch(44.4% 0.177 26.899);
-    --color-yellow-100: oklch(97.3% 0.071 103.193);
-    --color-yellow-200: oklch(94.5% 0.129 101.54);
     --color-yellow-600: oklch(68.1% 0.162 75.834);
     --color-yellow-700: oklch(55.4% 0.135 66.442);
     --color-yellow-800: oklch(47.6% 0.114 61.907);
@@ -247,17 +245,8 @@
   .right-10 {
     right: calc(var(--spacing) * 10);
   }
-  .bottom-0 {
-    bottom: calc(var(--spacing) * 0);
-  }
-  .bottom-1 {
-    bottom: calc(var(--spacing) * 1);
-  }
   .bottom-2 {
     bottom: calc(var(--spacing) * 2);
-  }
-  .bottom-3 {
-    bottom: calc(var(--spacing) * 3);
   }
   .left-0 {
     left: calc(var(--spacing) * 0);
@@ -376,9 +365,6 @@
   .table {
     display: table;
   }
-  .h-1 {
-    height: calc(var(--spacing) * 1);
-  }
   .h-2 {
     height: calc(var(--spacing) * 2);
   }
@@ -475,9 +461,6 @@
   .max-w-6xl {
     max-width: var(--container-6xl);
   }
-  .max-w-7xl {
-    max-width: var(--container-7xl);
-  }
   .max-w-md {
     max-width: var(--container-md);
   }
@@ -546,9 +529,6 @@
   .gap-6 {
     gap: calc(var(--spacing) * 6);
   }
-  .gap-8 {
-    gap: calc(var(--spacing) * 8);
-  }
   .gap-10 {
     gap: calc(var(--spacing) * 10);
   }
@@ -606,9 +586,6 @@
   .rounded-md {
     border-radius: var(--radius-md);
   }
-  .rounded-sm {
-    border-radius: var(--radius-sm);
-  }
   .rounded-xl {
     border-radius: var(--radius-xl);
   }
@@ -649,9 +626,6 @@
   .bg-\[\#bad0bb\] {
     background-color: #bad0bb;
   }
-  .bg-\[\#d96b6b\] {
-    background-color: #d96b6b;
-  }
   .bg-\[\#e07e7e\] {
     background-color: #e07e7e;
   }
@@ -667,11 +641,11 @@
   .bg-\[\#f6fbf0\] {
     background-color: #f6fbf0;
   }
-  .bg-\[\#fdfcfc\] {
-    background-color: #fdfcfc;
-  }
   .bg-\[rgba\(31\,41\,55\,0\.5\)\] {
     background-color: rgba(31,41,55,0.5);
+  }
+  .bg-black {
+    background-color: var(--color-black);
   }
   .bg-blue-100 {
     background-color: var(--color-blue-100);
@@ -684,9 +658,6 @@
   }
   .bg-gray-200 {
     background-color: var(--color-gray-200);
-  }
-  .bg-gray-600 {
-    background-color: var(--color-gray-600);
   }
   .bg-green-100 {
     background-color: var(--color-green-100);
@@ -717,12 +688,6 @@
   }
   .bg-yellow-600 {
     background-color: var(--color-yellow-600);
-  }
-  .bg-yellow-700 {
-    background-color: var(--color-yellow-700);
-  }
-  .bg-yellow-800 {
-    background-color: var(--color-yellow-800);
   }
   .object-cover {
     object-fit: cover;
@@ -781,9 +746,6 @@
   .py-10 {
     padding-block: calc(var(--spacing) * 10);
   }
-  .py-12 {
-    padding-block: calc(var(--spacing) * 12);
-  }
   .pt-2 {
     padding-top: calc(var(--spacing) * 2);
   }
@@ -793,17 +755,8 @@
   .pr-10 {
     padding-right: calc(var(--spacing) * 10);
   }
-  .pb-1 {
-    padding-bottom: calc(var(--spacing) * 1);
-  }
-  .pb-2 {
-    padding-bottom: calc(var(--spacing) * 2);
-  }
   .pb-3 {
     padding-bottom: calc(var(--spacing) * 3);
-  }
-  .pb-4 {
-    padding-bottom: calc(var(--spacing) * 4);
   }
   .pb-6 {
     padding-bottom: calc(var(--spacing) * 6);
@@ -830,10 +783,6 @@
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
   }
-  .text-3xl {
-    font-size: var(--text-3xl);
-    line-height: var(--tw-leading, var(--text-3xl--line-height));
-  }
   .text-4xl {
     font-size: var(--text-4xl);
     line-height: var(--tw-leading, var(--text-4xl--line-height));
@@ -858,10 +807,6 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
-  .leading-tight {
-    --tw-leading: var(--leading-tight);
-    line-height: var(--leading-tight);
-  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
@@ -882,18 +827,8 @@
     --tw-font-weight: var(--font-weight-semibold);
     font-weight: var(--font-weight-semibold);
   }
-  .tracking-tight {
-    --tw-tracking: var(--tracking-tight);
-    letter-spacing: var(--tracking-tight);
-  }
-  .text-\[\#2f2f2f\] {
-    color: #2f2f2f;
-  }
   .text-\[\#3a3a3a\] {
     color: #3a3a3a;
-  }
-  .text-\[\#4b2e2e\] {
-    color: #4b2e2e;
   }
   .text-\[\#5c3838\] {
     color: #5c3838;
@@ -924,9 +859,6 @@
   }
   .text-green-700 {
     color: var(--color-green-700);
-  }
-  .text-red-200 {
-    color: var(--color-red-200);
   }
   .text-red-600 {
     color: var(--color-red-600);
@@ -986,16 +918,6 @@
   }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
-    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-    transition-duration: var(--tw-duration, var(--default-transition-duration));
-  }
-  .transition-all {
-    transition-property: all;
-    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-    transition-duration: var(--tw-duration, var(--default-transition-duration));
-  }
-  .transition-colors {
-    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
@@ -1070,13 +992,6 @@
       }
     }
   }
-  .hover\:bg-\[\#b95353\] {
-    &:hover {
-      @media (hover: hover) {
-        background-color: #b95353;
-      }
-    }
-  }
   .hover\:bg-\[\#c36c6c\] {
     &:hover {
       @media (hover: hover) {
@@ -1088,6 +1003,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-gray-200);
+      }
+    }
+  }
+  .hover\:bg-gray-800 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-800);
       }
     }
   }
@@ -1410,15 +1332,7 @@
   inherits: false;
   initial-value: solid;
 }
-@property --tw-leading {
-  syntax: "*";
-  inherits: false;
-}
 @property --tw-font-weight {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-tracking {
   syntax: "*";
   inherits: false;
 }
@@ -1538,9 +1452,7 @@
       --tw-skew-y: initial;
       --tw-space-y-reverse: 0;
       --tw-border-style: solid;
-      --tw-leading: initial;
       --tw-font-weight: initial;
-      --tw-tracking: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;
