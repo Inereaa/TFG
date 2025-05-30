@@ -47,7 +47,9 @@ export default function TarjetaViaje({ viaje }) {
             }
             return res.json();
         })
-        .then((data) => setNumParticipantes(data.count || 0))
+        .then((data) => {
+            setNumParticipantes(data.total);
+        });
     }, [viaje.id]);
   
     const yaInscrito = misViajes.some((v) => Number(v.viajeId) === Number(viaje.id));
@@ -153,7 +155,7 @@ export default function TarjetaViaje({ viaje }) {
         }
 
         if (viajeLleno) {
-            return <p className="text-sm font-bold text-red-600 mt-2">¡Este viaje ya está cerrado!</p>;
+            return <p className="text-sm font-bold text-red-600 mt-2">¡Este viaje ya está lleno!</p>;
         }
 
         return (

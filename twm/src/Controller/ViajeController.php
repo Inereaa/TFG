@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Viaje;
 use App\Entity\User;
 use App\Entity\UsuarioViaje;
+use App\Repository\UsuarioViajeRepository;
 use App\Repository\ViajeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
