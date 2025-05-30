@@ -18,7 +18,7 @@ export default function BuscarPX() {
 
   return (
     <main className="flex flex-col items-center h-200">
-      <section className="bg-verdePXOP flex flex-col items-center gap-10 mt-20 w-100 pt-2 pb-6 rounded-2xl max-sm:w-80">
+      <section className="bg-verdePXOP flex flex-col items-center gap-10 mt-14 w-120 pt-2 pb-6 rounded-2xl max-sm:w-80">
         <div>
           <img src="/img/logoR.png" alt="logo" className="w-35" />
         </div>

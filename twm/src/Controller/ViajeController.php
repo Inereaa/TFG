@@ -78,4 +78,31 @@ class ViajeController extends AbstractController
 
         return $this->json($data);
     }
+
+    #[Route('/api/viajes/destacados', name: 'viajes_destacados', methods: ['GET'])]
+    public function viajesDestacados(ViajeRepository $repo): JsonResponse
+    {
+        $viajes = $repo->findBy([], null, 3);
+
+        $resultado = [];
+
+        foreach ($viajes as $viaje) {
+            $organizador = $viaje->getOrganizador();
+
+            $resultado[] = [
+                'id' => $viaje->getId(),
+                'destino' => $viaje->getDestino(),
+                'fechaInicio' => $viaje->getFechaInicio()?->format('Y-m-d'),
+                'fechaFin' => $viaje->getFechaFin()?->format('Y-m-d'),
+                'maxPersonas' => $viaje->getMaxPersonas(),
+                'minPersonas' => $viaje->getMinPersonas(),
+                'presupuestoMinimo' => $viaje->getPresupuesto(),
+                'usuarioOrganizador' => $organizador ? [
+                    'id' => $organizador->getId(),
+                ] : null,
+            ];
+        }
+
+        return $this->json($resultado);
+    }
 }
