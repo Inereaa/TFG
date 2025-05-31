@@ -77,7 +77,7 @@ jobs:
 
       # SUBIR .tfstate A S3
       - name: Subir mi directorio a mi S3
-        run: aws s3 cp tf/terraform.tfstate s3://nmr-bucket/terraform.tfstate
+        run: aws s3 cp tf/terraform.tfstate s3://nmr-bucket-tfg/terraform.tfstate
 
   destroy:
     runs-on: ubuntu-latest
@@ -115,7 +115,7 @@ jobs:
       # DESCARGAR tf.state
       - name: Descargar estado de Terraform desde S3
         run: |
-          aws s3 cp s3://nmr-bucket/terraform.tfstate tf/terraform.tfstate
+          aws s3 cp s3://nmr-bucket-tfg/terraform.tfstate tf/terraform.tfstate
 
       # TERRAFORM DESTROY
       - name: TERRAFORM DESTROY
