@@ -37,6 +37,11 @@ class UserViajeController extends AbstractController
         $em->persist($usuarioViaje);
         $em->flush();
 
+        $logFile = $this->getParameter('kernel.project_dir') . '/var/log/logs.log';
+        $fecha = (new \DateTime())->format('Y-m-d H:i:s');
+        $mensaje = "[$fecha] El usuario '{$usuario->getEmail()}' se ha unido al viaje a '{$viaje->getDestino()}' del {$viaje->getFechaInicio()->format('Y-m-d')} al {$viaje->getFechaFin()->format('Y-m-d')}" . PHP_EOL;
+        file_put_contents($logFile, $mensaje, FILE_APPEND);
+
         return new JsonResponse(['message' => 'Te uniste al viaje con éxito']);
     }
 
@@ -98,8 +103,15 @@ class UserViajeController extends AbstractController
             return new JsonResponse(['error' => 'No tienes permiso para cancelar esta plaza'], 403);
         }
 
+        $viaje = $usuarioViaje->getViaje();
+
         $em->remove($usuarioViaje);
         $em->flush();
+
+        $logFile = $this->getParameter('kernel.project_dir') . '/var/log/logs.log';
+        $fecha = (new \DateTime())->format('Y-m-d H:i:s');
+        $mensaje = "[$fecha] El usuario '{$usuario->getEmail()}' canceló su plaza en el viaje a '{$viaje->getDestino()}' del {$viaje->getFechaInicio()->format('Y-m-d')} al {$viaje->getFechaFin()->format('Y-m-d')}" . PHP_EOL;
+        file_put_contents($logFile, $mensaje, FILE_APPEND);
 
         return new JsonResponse(['message' => 'Plaza cancelada con éxito']);
     }
@@ -124,6 +136,11 @@ class UserViajeController extends AbstractController
 
         $em->remove($viaje);
         $em->flush();
+
+        $logFile = $this->getParameter('kernel.project_dir') . '/var/log/logs.log';
+        $fecha = (new \DateTime())->format('Y-m-d H:i:s');
+        $mensaje = "[$fecha] El usuario '{$usuario->getEmail()}' canceló el viaje a '{$viaje->getDestino()}' que estaba programado del {$viaje->getFechaInicio()->format('Y-m-d')} al {$viaje->getFechaFin()->format('Y-m-d')}" . PHP_EOL;
+        file_put_contents($logFile, $mensaje, FILE_APPEND);
 
         return new JsonResponse(['message' => 'Viaje cancelado con éxito']);
     }

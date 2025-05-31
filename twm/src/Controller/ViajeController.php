@@ -45,6 +45,11 @@ class ViajeController extends AbstractController
         $em->persist($usuarioViaje);
         $em->flush();
 
+        $logFile = $this->getParameter('kernel.project_dir') . '/var/log/logs.log';
+        $fecha = (new \DateTime())->format('Y-m-d H:i:s');
+        $mensaje = "[$fecha] El usuario '{$usuario->getEmail()}' ha creado un viaje a '{$viaje->getDestino()}' del {$viaje->getFechaInicio()->format('Y-m-d')} al {$viaje->getFechaFin()->format('Y-m-d')}" . PHP_EOL;
+        file_put_contents($logFile, $mensaje, FILE_APPEND);
+
         return new JsonResponse(['message' => 'Viaje creado con éxito', 'id' => $viaje->getId()], 201);
     }
 

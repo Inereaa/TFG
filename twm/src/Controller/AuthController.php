@@ -45,32 +45,7 @@ class AuthController extends AbstractController
         if (!$user || !$this->passwordEncoder->isPasswordValid($user, $password)) {
             throw new BadCredentialsException('Invalid credentials');
         }
-
-        // Generate the JWT token
-        $token = $this->jwtManager->create($user);
-
-        return new JsonResponse(['token' => $token]);
-    }
-
-    #[Route('/api/usuarios', name: 'register', methods: ['POST'])]
-    public function register(Request $request): JsonResponse
-    {
-        $data = json_decode($request->getContent(), true);
-
-        $email = $data['email'];
-        $password = $data['password'];
-        $username = $data['username'];
-
-        $user = new User();
-        $user->setEmail($email);
-        $user->setUsername($username);
-        $user->setRoles(['ROLE_USER']);
-        $user->setPassword($this->passwordEncoder->hashPassword($user, $password));
-
-        $this->em->persist($user);
-        $this->em->flush();
-
-        // Generate JWT for the newly created user
+        
         $token = $this->jwtManager->create($user);
 
         return new JsonResponse(['token' => $token]);

@@ -29,6 +29,11 @@ class UserController extends AbstractController
         $em->persist($user);
         $em->flush();
 
+        $logFile = $this->getParameter('kernel.project_dir') . '/var/log/logs.log';
+        $fecha = (new \DateTime())->format('Y-m-d H:i:s');
+        $mensaje = "[$fecha] Se ha creado un nuevo usuario con email '{$user->getEmail()}'" . PHP_EOL;
+        file_put_contents($logFile, $mensaje, FILE_APPEND);
+
         return new JsonResponse(['message' => 'Usuario creado', 'id' => $user->getId()], 201);
     }
 
@@ -61,6 +66,11 @@ class UserController extends AbstractController
             $em->flush();
         }
 
+        $logFile = $this->getParameter('kernel.project_dir') . '/var/log/logs.log';
+        $fecha = (new \DateTime())->format('Y-m-d H:i:s');
+        $mensaje = "[$fecha] El usuario '{$user->getEmail()}' ha actualizado su teléfono a '{$user->getTelefono()}'" . PHP_EOL;
+        file_put_contents($logFile, $mensaje, FILE_APPEND);
+
         return $this->json([
             'id' => $user->getId(),
             'username' => $user->getUsername(),
@@ -91,6 +101,11 @@ class UserController extends AbstractController
         $usuario->setFoto('/uploads/' . $nuevoNombre);
         $em->persist($usuario);
         $em->flush();
+
+        $logFile = $this->getParameter('kernel.project_dir') . '/var/log/logs.log';
+        $fecha = (new \DateTime())->format('Y-m-d H:i:s');
+        $mensaje = "[$fecha] El usuario '{$usuario->getEmail()}' ha subido una nueva foto: '{$usuario->getFoto()}'" . PHP_EOL;
+        file_put_contents($logFile, $mensaje, FILE_APPEND);
 
         return new JsonResponse(['foto' => $usuario->getFoto()]);
     }
