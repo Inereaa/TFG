@@ -1,11 +1,11 @@
 
 # + Bucket S3
 resource "aws_s3_bucket" "mi_bucket" {
-  bucket = "nmr-bucket"
+  bucket = "nmr-bucket-tfg"
   force_destroy = true
 
   tags = {
-    Name        = "nmr-bucket"
+    Name        = "nmr-bucket-tfg"
     Environment = "Dev"
   }
 }
