@@ -1,5 +1,6 @@
-tf/clave.key
-tf/.terraform/
-tf/.terraform.lock.hcl
-tf/terraform.tfstate
-tf/terraform.tfstate.backup
+
+clave.key
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
