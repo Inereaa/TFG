@@ -20,7 +20,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Instalar dependencias PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# Permisos
+# Permisos necesarios
 RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
 
 EXPOSE 80
