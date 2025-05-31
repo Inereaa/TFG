@@ -49,6 +49,24 @@ export default function Cuenta() {
         setUsuario(data);
         setNuevoTelefono(data.telefono ? data.telefono.slice(-9) : "");
         setPrefijo(data.telefono ? data.telefono.slice(0, data.telefono.length - 9) : "+34");
+
+        const resActualizar = await fetch("http://localhost:8000/api/usuario/actualizar-viajes", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (resActualizar.ok) {
+          const dataActualizar = await resActualizar.json();
+          setUsuario(prev => ({
+            ...prev,
+            nivel: dataActualizar.nivel,
+            viajes_realizados: dataActualizar.viajes_realizados
+          }));
+        } else {
+          console.error("No se pudo actualizar viajes y nivel");
+        }
       } catch (error) {
         console.error("Error:", error);
         navigate("/login");
@@ -164,6 +182,12 @@ export default function Cuenta() {
     }
   };
 
+  const hoy = new Date();
+  const viajesProximos = viajes.filter((viaje) => {
+    const fechaInicio = new Date(viaje.fechaInicio);
+    return fechaInicio >= hoy;
+  });
+
   const descargarPDF = (viaje) => {
     const doc = new jsPDF();
 
@@ -220,11 +244,11 @@ export default function Cuenta() {
 
           {cargandoViajes ? (
             <p>Cargando viajes...</p>
-          ) : viajes.length === 0 ? (
+          ) : viajesProximos.length === 0 ? (
             <p className="text-gray-500">No tienes viajes programados.</p>
           ) : (
             <div className="grid md:grid-cols-2 gap-4">
-              {viajes.map((viaje) => (
+              {viajesProximos.map((viaje) => (
                 <div
                   key={viaje.viajeId}
                   className="relative border border-red-100 rounded-xl p-4 shadow hover:shadow-lg transition duration-300 flex items-center justify-between"

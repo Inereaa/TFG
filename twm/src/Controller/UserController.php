@@ -109,4 +109,46 @@ class UserController extends AbstractController
 
         return new JsonResponse(['foto' => $usuario->getFoto()]);
     }
+
+    #[Route('api/usuario/actualizar-viajes', name: 'actualizar_viajes', methods: ['POST'])]
+    public function actualizarViajes(EntityManagerInterface $em): JsonResponse {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->json(['error' => 'No autenticado'], 401);
+        }
+
+        $hoy = new \DateTime();
+        $contadorViajesRealizados = 0;
+
+        foreach ($user->getUsuarioViajes() as $usuarioViaje) {
+            $viaje = $usuarioViaje->getViaje();
+
+            if ($viaje->getFechaInicio() < $hoy) {
+                $contadorViajesRealizados++;
+            }
+        }
+
+        $user->setViajesRealizados($contadorViajesRealizados);
+
+        if ($contadorViajesRealizados >= 20) {
+            $nivel = 'Leyenda';
+        } elseif ($contadorViajesRealizados >= 10) {
+            $nivel = 'Experto';
+        } elseif ($contadorViajesRealizados >= 5) {
+            $nivel = 'Avanzado';
+        } elseif ($contadorViajesRealizados >= 2) {
+            $nivel = 'Intermedio';
+        } else {
+            $nivel = 'Básico';
+        }
+        $user->setNivel($nivel);
+
+        $em->flush();
+
+        return $this->json([
+            'viajes_realizados' => $contadorViajesRealizados,
+            'nivel' => $nivel
+        ]);
+    }
 }
