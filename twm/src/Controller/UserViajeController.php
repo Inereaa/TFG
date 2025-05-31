@@ -61,7 +61,8 @@ class UserViajeController extends AbstractController
                 'id' => $uv->getId(),
                 'viajeId' => $uv->getViaje()->getId(),
                 'destino' => $uv->getViaje()->getDestino(),
-                'fechaInicio' => $uv->getViaje()->getFechaInicio()->format('Y-m-d')
+                'fechaInicio' => $uv->getViaje()->getFechaInicio()->format('Y-m-d'),
+                'fechaFin' => $uv->getViaje()->getFechaFin()->format('Y-m-d')
             ];
         }, $resultados);
 

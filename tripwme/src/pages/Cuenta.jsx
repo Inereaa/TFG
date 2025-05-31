@@ -1,7 +1,9 @@
 
 import Navegacion from "../components/Navegacion";
+import Footer from "../components/Footer";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { jsPDF } from "jspdf";
 
 export default function Cuenta() {
   const [usuario, setUsuario] = useState(null);
@@ -162,6 +164,23 @@ export default function Cuenta() {
     }
   };
 
+  const descargarPDF = (viaje) => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("TRIPWME", 10, 20);
+
+    doc.setFontSize(14);
+    doc.text("Información de tu viaje:", 10, 30);
+
+    doc.setFontSize(12);
+    doc.text(`Destino: ${viaje.destino}`, 10, 45);
+    doc.text(`Fecha inicio: ${viaje.fechaInicio}`, 10, 55);
+    doc.text(`Fecha fin: ${viaje.fechaFin}`, 10, 65);
+
+    doc.save(`Viaje_${viaje.destino}.pdf`);
+  };
+
   return (
     <>
       <Navegacion />
@@ -206,14 +225,25 @@ export default function Cuenta() {
           ) : (
             <div className="grid md:grid-cols-2 gap-4">
               {viajes.map((viaje) => (
-                <div key={viaje.viajeId} className="border border-red-100 rounded-xl p-4 shadow hover:shadow-lg transition duration-300">
-                  <h4 className="text-lg font-semibold text-red-700">{viaje.destino}</h4>
-                  <p className="text-gray-600 text-sm mb-2">Fecha: {viaje.fechaInicio}</p>
-                  {viaje.revendido ? (
-                    <p className="text-yellow-600 font-semibold">En reventa por {viaje.precioReventa}€</p>
-                  ) : (
-                    <p className="text-green-700 font-medium">Vigente</p>
-                  )}
+                <div
+                  key={viaje.viajeId}
+                  className="relative border border-red-100 rounded-xl p-4 shadow hover:shadow-lg transition duration-300 flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={`/img/${viaje.destino.toLowerCase()}.jpg`} alt="destino"
+                      className="w-16 h-16 rounded-xl object-cover"
+                    />
+                    <div>
+                      <h4 className="text-lg font-semibold text-red-700">{viaje.destino}</h4>
+                      <p className="text-gray-600 text-sm">{`${viaje.fechaInicio} / ${viaje.fechaFin}`}</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => descargarPDF(viaje)}
+                    className="absolute bottom-2 right-2 bg-red-700 text-white px-2 py-1 rounded text-sm hover:bg-red-800 transition cursor-pointer">
+                    Descargar PDF
+                  </button>
                 </div>
               ))}
             </div>
@@ -287,13 +317,8 @@ export default function Cuenta() {
             <p className="text-red-600 text-sm mt-1">{errorTelefono}</p>
           )}
         </div>
-
-        <div className="bg-white rounded-2xl shadow p-6 mb-8">
-          <h3 className="text-xl font-bold mb-4">Seguridad</h3>
-          <button className="text-red-700 font-semibold mb-2 block">Cambiar contraseña</button>
-          <button className="text-red-700 font-semibold block">Activar 2FA</button>
-        </div>
       </div>
+      <Footer />
     </>
   );
 }
