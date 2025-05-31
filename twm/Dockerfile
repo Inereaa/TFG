@@ -11,7 +11,7 @@ RUN a2enmod rewrite
 
 WORKDIR /var/www/html
 
-# Copiar el proyecto Symfony
+# Copiar el proyecto de Symfony
 COPY . .
 
 # Instalar Composer
