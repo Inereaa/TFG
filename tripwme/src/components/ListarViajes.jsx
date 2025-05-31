@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import Viaje from "./Viaje";
+import { motion } from "framer-motion";
 
 export default function ListarViajes({ filtros, orden }) {
   const [viajes, setViajes] = useState([]);
@@ -88,7 +89,16 @@ export default function ListarViajes({ filtros, orden }) {
   return (
     <div className="flex flex-col gap-10">
       {viajesOrdenados.length > 0 ? (
-        viajesOrdenados.map((viaje) => <Viaje key={viaje.id} viaje={viaje} />)
+        viajesOrdenados.map((viaje, index) => (
+          <motion.div
+            key={viaje.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.4 }}
+          >
+            <Viaje viaje={viaje} />
+          </motion.div>
+        ))
       ) : (
         <p className="text-center text-gray-500 mt-6">No se encontraron viajes.</p>
       )}
