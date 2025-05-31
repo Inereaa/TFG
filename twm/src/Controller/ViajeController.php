@@ -87,7 +87,15 @@ class ViajeController extends AbstractController
     #[Route('/api/viajes/destacados', name: 'viajes_destacados', methods: ['GET'])]
     public function viajesDestacados(ViajeRepository $repo): JsonResponse
     {
-        $viajes = $repo->findBy([], null, 3);
+        $fechaActual = new \DateTime();
+
+        $viajes = $repo->createQueryBuilder('v')
+            ->where('v.fechaInicio > :hoy')
+            ->setParameter('hoy', $fechaActual)
+            ->orderBy('v.fechaInicio', 'ASC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
 
         $resultado = [];
 
