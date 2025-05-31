@@ -744,6 +744,9 @@
   .bg-red-800 {
     background-color: var(--color-red-800);
   }
+  .bg-red-900 {
+    background-color: var(--color-red-900);
+  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -936,6 +939,9 @@
   .text-green-700 {
     color: var(--color-green-700);
   }
+  .text-green-900 {
+    color: var(--color-green-900);
+  }
   .text-red-600 {
     color: var(--color-red-600);
   }
@@ -944,6 +950,9 @@
   }
   .text-red-800 {
     color: var(--color-red-800);
+  }
+  .text-red-900 {
+    color: var(--color-red-900);
   }
   .text-white {
     color: var(--color-white);

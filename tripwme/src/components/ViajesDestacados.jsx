@@ -23,7 +23,13 @@ export default function ViajesDestacados() {
       {viajes.length === 0 ? (
         <p className="text-center col-span-3">Cargando viajes destacados...</p>
       ) : (
-        viajes.map(viaje => <TarjetaViaje key={viaje.id} viaje={viaje} />)
+        (() => {
+          const viajesFiltrados = viajes.filter(viaje => viaje.diasRestantes >= 1);
+          if (viajesFiltrados.length === 0) {
+            return <p className="text-center col-span-3 px-6 py-1 rounded-full text-sm text-green-900"><i>Actualmente no hay viajes disponibles...</i></p>;
+          }
+          return viajesFiltrados.map(viaje => <TarjetaViaje key={viaje.id} viaje={viaje} />);
+        })()
       )}
     </section>
   );
