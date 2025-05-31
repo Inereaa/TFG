@@ -8,7 +8,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Production stage - sirve con nginx
+# Producción - para nginx
 FROM nginx:stable-alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
