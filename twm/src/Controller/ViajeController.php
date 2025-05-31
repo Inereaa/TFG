@@ -112,6 +112,7 @@ class ViajeController extends AbstractController
                 'presupuestoMinimo' => $viaje->getPresupuesto(),
                 'usuarioOrganizador' => $organizador ? [
                     'id' => $organizador->getId(),
+                    'nombre' => $organizador->getUsername()
                 ] : null,
             ];
         }

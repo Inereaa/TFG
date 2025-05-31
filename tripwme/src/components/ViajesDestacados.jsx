@@ -27,7 +27,7 @@ export default function ViajesDestacados() {
   });
 
   return (
-    <section className="max-w-6xl mx-auto mt-10 px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section className="xl:w-[44%] max-w-7xl mx-auto mt-10 px-4 flex flex-col gap-8">
       {viajes.length === 0 ? (
         <p className="text-center col-span-3">Cargando viajes destacados...</p>
       ) : viajesFiltrados.length === 0 ? (

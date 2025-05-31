@@ -231,22 +231,22 @@ export default function TarjetaViaje({ viaje }) {
     }
 
     return (
-        <div className={`flex p-8 rounded-4xl shadow-md items-center ${tarjetaColor} relative`}>
-          <img src={`/img/${viaje.destino.toLowerCase()}.jpg`} alt="destino" className="w-50 h-50 object-cover rounded-2xl mr-10" />
+        <div className={`flex p-6 md:py-6 md:px-8 xl:p-8 rounded-4xl shadow-md items-center ${tarjetaColor} relative`}>
+          <img src={`/img/${viaje.destino.toLowerCase()}.jpg`} alt="destino" className="h-30 w-30 md:w-40 md:h-40 xl:w-50 xl:h-50 object-cover rounded-2xl mr-10" />
           <div className="flex flex-col gap-2">
-            <h2 className="font-bold text-2xl mb-6">{viaje.destino}</h2>
+            <h2 className="font-bold text-2xl mb-2 xl:mb-6">{viaje.destino}</h2>
             <p>📅 {viaje.fechaInicio} // {viaje.fechaFin}</p>
-            <p>💶 Presupuesto mínimo: {viaje.presupuestoMinimo} €</p>
-            <p>👥 Nº de personas: {viaje.minPersonas} - {viaje.maxPersonas}</p>
-            <p><i>🧑‍💼 Email de contacto: <span className="font-semibold">{viaje.usuarioOrganizador.nombre}</span></i></p>
+            <p>💶<span className="hidden xl:inline"> Presupuesto mínimo: </span> {viaje.presupuestoMinimo} €</p>
+            <p>👥<span className="hidden xl:inline"> Nº de personas: </span> {viaje.minPersonas} - {viaje.maxPersonas}</p>
+            <p><i className="hidden xl:inline">🧑‍💼 Email de contacto:<span className="font-semibold"> {viaje.usuarioOrganizador.nombre}</span></i></p>
           </div>
-          <div className="absolute top-6 right-10 text-right flex flex-col">
-            <div className={`flex flex-col items-center ${diasRestantesColor} rounded-3xl p-4 mb-4`}>
+          <div className="absolute xl:top-6 xl:right-10 text-center bottom-4 right-4 flex flex-col">
+            <div className={`flex flex-col items-center ${diasRestantesColor} rounded-3xl p-4 mb-4 hidden xl:block`}>
               <p className="text-6xl font-bold text-gray-800">{diferenciaDias}</p>
               <p className="text-lg font-bold">día/s restante/s</p>
             </div>
             {renderBoton()}
           </div>
         </div>
-      );
+    );
 }

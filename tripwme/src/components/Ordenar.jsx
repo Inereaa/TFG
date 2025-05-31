@@ -17,7 +17,7 @@ export default function Ordenar({ setOrden }) {
   };
 
   return (
-    <div className="relative inline-block text-left mt-2 ml-6">
+    <div className="relative md:inline-block text-left mt-2 ml-6 hidden">
       <label className="mr-2 font-semibold text-sm text-gray-700">Ordenar por:</label>
       <select
         value={orden}

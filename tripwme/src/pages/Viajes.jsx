@@ -45,13 +45,13 @@ export default function Viajes() {
       <div className="flex px-10 py-8 gap-10 ml-60 mr-60">
         <Filtros setFiltros={setFiltros} filtros={filtros} />
 
-        <section className="w-3/4 flex flex-col gap-6">
+        <section className="xl:w-3/4 flex flex-col gap-6">
           <Ordenar setOrden={setOrden} />
 
           {usuarioAutenticado && (
-            <div className="flex justify-end">
-              <p className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold transition">
-                <Link to="/crearviaje">➕ Crear nuevo viaje</Link>
+            <div className="flex xl:justify-end justify-center">
+              <p className="bg-red-500 hover:bg-red-600 text-white px-2 py-2 xl:px-6 xl:py-3 rounded-xl font-semibold transition cursor-pointer">
+                <Link to="/crearviaje">➕ <span className="hidden md:inline-block"> Crear nuevo viaje</span></Link>
               </p>
             </div>
           )}

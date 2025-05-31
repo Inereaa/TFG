@@ -14,8 +14,8 @@ export default function Buscar({ filtros, setFiltros }) {
     };
   
     return (
-      <section className="bg-white shadow-lg rounded-3xl p-6 max-w-4xl mx-auto mb-6">
-        <div className="w-full flex flex-col md:flex-row items-center justify-center gap-6">
+      <section className="bg-white shadow-lg rounded-3xl p-6 max-md:mt-2 max-xl:mt-2 max-md:max-w-md max-xl:max-w-2xl max-w-md xl:max-w-4xl mx-auto mb-6 max-xl:flex max-xl:justify-center">
+        <div className="xl:w-full md:w-150 w-80 flex flex-col md:flex-row items-center justify-center gap-6">
           <input
             type="text"
             placeholder="Destino..."

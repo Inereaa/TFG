@@ -49,8 +49,8 @@ export default function Filtros({ setFiltros }) {
     };
 
   return (
-    <aside className="w-1/4 bg-[#f2dede] p-4 rounded-xl shadow-md flex flex-col gap-6 h-[calc(100vh-2rem)] overflow-y-auto">
-      <div className="w-full h-64 rounded-xl overflow-hidden shadow-md">
+    <aside className="w-1/4 bg-[#f2dede] p-4 rounded-xl shadow-md hidden md:block xl:flex flex-col gap-6 h-[calc(100vh-2rem)] overflow-y-auto">
+      <div className="w-full h-64 rounded-xl overflow-hidden shadow-md hidden xl:block">
         <iframe
           title="mapa"
           className="w-full h-full"
@@ -60,8 +60,8 @@ export default function Filtros({ setFiltros }) {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-      <button className="bg-[#e07e7e] text-white py-2 rounded-md font-semibold hover:bg-[#c36c6c] duration-300 cursor-pointer">Ver en el mapa</button>
-      <hr />
+      <button className="hidden xl:block bg-[#e07e7e] text-white py-2 rounded-md font-semibold hover:bg-[#c36c6c] duration-300 cursor-pointer">Ver en el mapa</button>
+      <hr className="hidden xl:block" />
       <div className="ml-2 mr-2">
         <h3 className="font-bold mb-2">Tu presupuesto (total)</h3>
         <p className="ml-4 mb-2 font-light">€ {precioMaximo}</p>

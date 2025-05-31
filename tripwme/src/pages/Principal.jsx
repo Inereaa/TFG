@@ -11,7 +11,7 @@ export default function Principal() {
           <NavegacionPX />
         </div>
 
-        <section className="relative w-full max-w-5xl mx-auto p-10 text-center text-gray-900 bg-verdePX shadow-xl rounded-b-full">
+        <section className="hidden xl:block relative w-full max-w-5xl mx-auto p-10 text-center text-gray-900 bg-verdePX rounded-b-full">
           <h1 className="text-5xl font-extrabold mb-3">
             Explora el mundo con <span className="text-red-700">tripWme</span>
           </h1>
@@ -26,8 +26,8 @@ export default function Principal() {
           <BuscarPX />
         </main>
 
-        <section className="relative flex flex-col items-center">
-          <h2 className="bg-green-900 text-white text-3xl font-extrabold px-6 py-3 shadow-md mb-6 w-140 text-center rounded-md"> Viajes destacados </h2>
+        <section className="relative flex flex-col items-center max-md:-mt-20">
+          <h2 className="bg-green-900 text-white xl:text-3xl text-2xl font-extrabold px-6 py-3 mb-6 w-80 xl:w-140 text-center rounded-md"> Viajes destacados </h2>
           <ViajesDestacados />
         </section>
 
