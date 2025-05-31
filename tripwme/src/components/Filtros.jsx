@@ -60,7 +60,12 @@ export default function Filtros({ setFiltros }) {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-      <button className="hidden xl:block bg-[#e07e7e] text-white py-2 rounded-md font-semibold hover:bg-[#c36c6c] duration-300 cursor-pointer">Ver en el mapa</button>
+      <button
+        className="hidden xl:block bg-[#e07e7e] text-white py-2 rounded-md font-semibold hover:bg-[#c36c6c] duration-300 cursor-pointer"
+        onClick={() => window.open("https://www.google.es/maps", "_blank")}
+      >
+        Ver en el mapa
+      </button>
       <hr className="hidden xl:block" />
       <div className="ml-2 mr-2">
         <h3 className="font-bold mb-2">Tu presupuesto (total)</h3>
