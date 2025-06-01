@@ -29,7 +29,4 @@ services:
     environment:
       MYSQL_PWD: tfgtripwme
     command: >
-      sh -c "until mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com
-                   -u admin -e 'SELECT 1'; do sleep 5; done &&
-             mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com
-                   -u admin tripwme < /tripwme.sql"
+      sh -c "until mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme -e 'SELECT 1'; do sleep 5; done && mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme tripwme < /tripwme.sql"
