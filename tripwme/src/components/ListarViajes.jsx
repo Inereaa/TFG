@@ -16,7 +16,7 @@ export default function ListarViajes({ filtros, orden }) {
   };
 
   useEffect(() => {
-    fetch("http://tripwme.work.gd/api/viajes")
+    fetch("http://tripwme.work.gd:8080/api/viajes")
       .then((res) => res.json())
       .then((data) => {
         setViajes(data);
