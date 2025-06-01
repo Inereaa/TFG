@@ -17,3 +17,19 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
+    environment:
+      DATABASE_URL: "mysql://admin:tfgtripwme@symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com:3306/tripwme"
+
+  mysql-importer:
+    image: mysql:8.0
+    depends_on:
+      - symfony
+    volumes:
+      - ./tripwme.sql:/tripwme.sql
+    environment:
+      MYSQL_PWD: tfgtripwme
+    command: >
+      sh -c "until mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com
+                   -u admin -e 'SELECT 1'; do sleep 5; done &&
+             mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com
+                   -u admin tripwme < /tripwme.sql"
