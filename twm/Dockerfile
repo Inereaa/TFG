@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y \
 # Habilitar mod_rewrite para Apache
 RUN a2enmod rewrite
 
+# Establecer directorio de trabajo
 WORKDIR /var/www/html
+
+# Copiar el archivo de configuración de Apache
+COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # Copiar el proyecto de Symfony
 COPY . .
