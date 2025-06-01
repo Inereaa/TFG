@@ -29,9 +29,8 @@ resource "aws_instance" "mi_instancia" {
   # Ir a la carpeta donde está docker-compose.yml
   cd /home/ubuntu/app
 
-  # Levantar los contenedores con docker-compose (recrear y levantar)
-  sudo docker-compose down
-  sudo docker-compose up -d --build
+  # Levantar los contenedores con docker-compose
+  sudo docker-compose up
 
 EOF
 

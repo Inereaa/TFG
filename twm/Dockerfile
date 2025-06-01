@@ -1,5 +1,5 @@
 
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 # Instalar extensiones necesarias para Symfony
 RUN apt-get update && apt-get install -y \
@@ -18,7 +18,7 @@ COPY . .
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Instalar dependencias PHP
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --optimize-autoloader
 
 # Permisos necesarios
 RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
