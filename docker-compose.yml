@@ -7,8 +7,10 @@ services:
       context: ./tripwme
       dockerfile: Dockerfile
     ports:
-      - "3000:80"
+      - "80:80"
     restart: unless-stopped
+    networks:
+      - app-network
 
   symfony:
     build:
@@ -19,6 +21,8 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: "mysql://admin:tfgtripwme@symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com:3306/tripwme"
+    networks:
+      - app-network
 
   mysql-importer:
     image: mysql:8.0
@@ -30,3 +34,9 @@ services:
       MYSQL_PWD: tfgtripwme
     command: >
       sh -c "until mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme -e 'SELECT 1'; do sleep 5; done && mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme -e 'DROP DATABASE IF EXISTS tripwme; CREATE DATABASE tripwme CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;' && mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme tripwme < /tripwme.sql"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
