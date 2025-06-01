@@ -29,4 +29,4 @@ services:
     environment:
       MYSQL_PWD: tfgtripwme
     command: >
-      command: sh -c "until mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme -e 'SELECT 1'; do sleep 5; done && mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme -e 'DROP DATABASE IF EXISTS tripwme; CREATE DATABASE tripwme CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;' && mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme tripwme < /tripwme.sql"
+      sh -c "until mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme -e 'SELECT 1'; do sleep 5; done && mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme -e 'DROP DATABASE IF EXISTS tripwme; CREATE DATABASE tripwme CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;' && mysql -h symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com -u admin -ptfgtripwme tripwme < /tripwme.sql"
