@@ -11,14 +11,14 @@ export default function TarjetaViaje({ viaje }) {
         const token = localStorage.getItem("token");
         setUsuarioAutenticado(!!token);
 
-        fetch("http://localhost:8000/api/me", {
+        fetch("http://tripwme.work.gd/api/me", {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => res.json())
         .then(data => setUserId(data.id))
         .catch(err => console.error("Error al obtener usuario:", err));
 
-        fetch("http://localhost:8000/api/mis-viajes", {
+        fetch("http://tripwme.work.gd/api/mis-viajes", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -34,7 +34,7 @@ export default function TarjetaViaje({ viaje }) {
         .then((data) => setMisViajes(data))
         .catch((err) => console.error(err));
 
-        fetch(`http://localhost:8000/api/viajes/${viaje.id}/participantes`, {
+        fetch(`http://tripwme.work.gd/api/viajes/${viaje.id}/participantes`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -61,7 +61,7 @@ export default function TarjetaViaje({ viaje }) {
         
         const token = localStorage.getItem("token");
         console.log("Token:", token);
-        const res = await fetch(`http://localhost:8000/api/unirse/${viaje.id}`, {
+        const res = await fetch(`http://tripwme.work.gd/api/unirse/${viaje.id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export default function TarjetaViaje({ viaje }) {
     const cancelar = async () => {
         const usuarioViaje = misViajes.find((v) => v.viajeId === viaje.id);
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:8000/api/cancelar-plaza/${usuarioViaje.id}`, {
+        const res = await fetch(`http://tripwme.work.gd/api/cancelar-plaza/${usuarioViaje.id}`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -108,7 +108,7 @@ export default function TarjetaViaje({ viaje }) {
         if (!confirmar) return;
 
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:8000/api/cancelar-viaje/${viaje.id}`, {
+        const res = await fetch(`http://tripwme.work.gd/api/cancelar-viaje/${viaje.id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,

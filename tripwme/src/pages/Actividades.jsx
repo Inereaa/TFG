@@ -8,7 +8,7 @@ export default function Actividades() {
   const [actividades, setActividades] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/actividades")
+    fetch("http://tripwme.work.gd/api/actividades")
       .then((res) => res.json())
       .then((data) => setActividades(data))
       .catch((err) => console.error("Error al obtener actividades", err));

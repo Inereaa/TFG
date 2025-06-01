@@ -7,7 +7,7 @@ export default function ViajesDestacados() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/viajes/destacados")
+    fetch("http://tripwme.work.gd/api/viajes/destacados")
       .then(res => {
         if (!res.ok) throw new Error("Error al cargar viajes destacados");
         return res.json();

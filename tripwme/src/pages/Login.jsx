@@ -18,7 +18,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const loginResponse = await fetch("http://localhost:8000/api/usuarios/login", {
+      const loginResponse = await fetch("http://tripwme.work.gd/api/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(usuario),
@@ -37,7 +37,7 @@ export default function Login() {
           username: usuario.email,
         };
   
-        const crearResponse = await fetch("http://localhost:8000/api/usuarios", {
+        const crearResponse = await fetch("http://tripwme.work.gd/api/usuarios", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(crearUsuario),
@@ -46,7 +46,7 @@ export default function Login() {
         if (crearResponse.ok) {
           alert("Usuario creado correctamente.");
   
-          const nuevoLoginResponse = await fetch("http://localhost:8000/api/usuarios/login", {
+          const nuevoLoginResponse = await fetch("http://tripwme.work.gd/api/usuarios/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(usuario),
