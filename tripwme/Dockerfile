@@ -18,6 +18,9 @@ COPY ./certs/certificate.crt /etc/ssl/certs/certificate.crt
 COPY ./certs/ca_bundle.crt /etc/ssl/certs/ca_bundle.crt
 COPY ./certs/private.key /etc/ssl/private/private.key
 
+# Certificado raíz de AWS RDS para SSL
+COPY ./certs/eu-south-2-bundle.pem /etc/ssl/certs/eu-south-2-bundle.pem
+
 # Copiar configuración de Nginx
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
