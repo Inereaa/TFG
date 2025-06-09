@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
 
 # Habilitar mod_rewrite para Apache
 RUN a2enmod rewrite
+RUN a2enmod ssl
 
 # Establecer directorio de trabajo
 WORKDIR /var/www/html
@@ -27,6 +28,11 @@ RUN composer install --optimize-autoloader
 # Permisos necesarios
 RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
 
-EXPOSE 80
+# Certificados
+COPY ./tf/certificate.crt /etc/ssl/certs/certificate.crt
+COPY ./tf/ca_bundle.crt /etc/ssl/certs/ca_bundle.crt
+COPY ./tf/private.key /etc/ssl/private/private.key
+
+EXPOSE 80 443
 
 CMD ["apache2-foreground"]

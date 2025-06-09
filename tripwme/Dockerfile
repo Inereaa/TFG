@@ -13,6 +13,14 @@ FROM nginx:stable-alpine
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 80
+# Certificados
+COPY ./tf/certificate.crt /etc/ssl/certs/certificate.crt
+COPY ./tf/ca_bundle.crt /etc/ssl/certs/ca_bundle.crt
+COPY ./tf/private.key /etc/ssl/private/private.key
+
+# Copiar configuración de Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
