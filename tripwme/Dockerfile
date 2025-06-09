@@ -19,7 +19,7 @@ COPY ./certs/ca_bundle.crt /etc/ssl/certs/ca_bundle.crt
 COPY ./certs/private.key /etc/ssl/private/private.key
 
 # Copiar configuración de Nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80 443
 
