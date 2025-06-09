@@ -1,6 +1,14 @@
 
 import { Link } from "react-router";
 
+/**
+ * Componente NavegacionPX que renderiza una barra de navegación simplificada para pantallas pequeñas.
+ * Contiene enlaces a las secciones principales y un logo central.
+ *
+ * @component
+ * 
+ * @returns {JSX.Element} Barra de navegación con enlaces y logo.
+ */
 export default function NavegacionPX() {
   
     return (

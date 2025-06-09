@@ -9,9 +9,26 @@ import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
+/**
+ * Componente Viajes
+ * 
+ * Página principal para visualizar y filtrar viajes.
+ * Gestiona filtros, ordenación y estado de autenticación del usuario.
+ * Permite navegar a la creación de un nuevo viaje si el usuario está autenticado.
+ * 
+ * @component
+ * @returns {JSX.Element} Componente con lista de viajes filtrados y opciones de navegación
+ */
 export default function Viajes() {
   const location = useLocation();
   const [usuarioAutenticado, setUsuarioAutenticado] = useState(false);
+  /**
+   * Estado que almacena los filtros aplicados para la búsqueda de viajes
+   * @property {string} destino - Lugar destino del viaje
+   * @property {string} fechaInicio - Fecha de inicio del viaje
+   * @property {number|null} precioMaximo - Precio máximo para filtrar viajes
+   * @property {Array<string>} continentes - Continentes seleccionados para filtrar
+   */
   const [filtros, setFiltros] = useState({
     destino: "",
     fechaInicio: "",
@@ -21,9 +38,11 @@ export default function Viajes() {
   const [orden, setOrden] = useState("Precio (más caro primero)");
 
   useEffect(() => {
+    // Verifica si hay token para determinar autenticación
     const token = localStorage.getItem("token");
     setUsuarioAutenticado(!!token);
-
+    
+    // Lee parámetros URL para predefinir filtros de destino y fecha
     const queryParams = new URLSearchParams(location.search);
     const destino = queryParams.get("destino");
     const fechaInicio = queryParams.get("fechaInicio");

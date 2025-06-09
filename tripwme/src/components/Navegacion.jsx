@@ -1,11 +1,24 @@
 
 import { Link, useNavigate } from "react-router-dom";
 
+/**
+ * Componente Navegacion que renderiza la barra de navegación principal.
+ * Muestra enlaces a diferentes secciones y un botón para cerrar sesión si el usuario está autenticado.
+ *
+ * @component
+ * 
+ * @returns {JSX.Element} Elemento de navegación con enlaces y control de sesión.
+ */
 export default function Navegacion() {
   const navigate = useNavigate();
-  
+
+  // Verifica si el usuario está logueado buscando un token en localStorage
   const isLoggedIn = localStorage.getItem("token");
-  
+
+  /**
+   * Maneja el cierre de sesión del usuario.
+   * Elimina el token de localStorage y redirige a la página principal.
+   */
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");

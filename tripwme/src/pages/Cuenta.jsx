@@ -5,6 +5,18 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
 
+/**
+ * Componente Cuenta
+ * 
+ * Muestra y gestiona la información del usuario autenticado:
+ * - Perfil (foto, email, nivel, viajes realizados)
+ * - Teléfono editable con validación
+ * - Listado de próximos viajes
+ * - Descarga PDF con detalles del viaje
+ * 
+ * @component
+ * @returns {JSX.Element} Interfaz del perfil del usuario
+ */
 export default function Cuenta() {
   const [usuario, setUsuario] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -19,6 +31,11 @@ export default function Cuenta() {
   const [cargandoViajes, setCargandoViajes] = useState(true);
   const prefijosComunes = ["+34", "+1", "+44", "+33", "+49", "+39", "+52", "+55"];
 
+  /**
+   * Obtiene el perfil del usuario y actualiza nivel y viajes realizados.
+   * Si no hay token válido redirige a login.
+   * Ejecutado al montar el componente.
+   */
   useEffect(() => {
     const fetchPerfil = async () => {
       const token = localStorage.getItem("token");
@@ -78,6 +95,10 @@ export default function Cuenta() {
     fetchPerfil();
   }, [navigate]);
 
+  /**
+   * Obtiene los viajes del usuario.
+   * Ejecutado al montar el componente.
+   */
   useEffect(() => {
     const fetchViajes = async () => {
       const token = localStorage.getItem("token");
@@ -115,6 +136,9 @@ export default function Cuenta() {
     return soloNumeros && telefono.length === 9;
   };
 
+  /**
+   * Guarda el nuevo teléfono en el backend y actualiza el estado.
+   */
   const guardarTelefono = async () => {
     if (!validarTelefono(nuevoTelefono)) {
       setErrorTelefono("El número debe tener exactamente 9 dígitos numéricos.");
@@ -146,6 +170,11 @@ export default function Cuenta() {
     }
   };
 
+  /**
+   * Formatea el teléfono completo para mostrar con espacios y prefijo.
+   * @param {string} telefonoCompleto Teléfono con prefijo
+   * @returns {string} Teléfono formateado
+   */
   const formatearTelefono = (telefonoCompleto) => {
     if (!telefonoCompleto) return "----";
     const match = telefonoCompleto.match(/^(\+\d{2})(\d{3})(\d{3})(\d{3})$/);
@@ -153,6 +182,10 @@ export default function Cuenta() {
     return telefonoCompleto;
   };
 
+  /**
+   * Sube una nueva foto de perfil al backend y actualiza el estado.
+   * @param {React.ChangeEvent<HTMLInputElement>} e Evento cambio input file
+   */
   const subirFotoPerfil = async (e) => {
     const archivo = e.target.files[0];
     if (!archivo) return;
@@ -188,6 +221,13 @@ export default function Cuenta() {
     return fechaInicio >= hoy;
   });
 
+  /**
+   * Genera y descarga un PDF con la información del viaje.
+   * @param {Object} viaje Objeto viaje con detalles
+   * @param {string} viaje.destino Destino del viaje
+   * @param {string} viaje.fechaInicio Fecha inicio viaje
+   * @param {string} viaje.fechaFin Fecha fin viaje
+   */
   const descargarPDF = (viaje) => {
     const doc = new jsPDF();
 

@@ -2,6 +2,14 @@
 import { useEffect, useState } from "react";
 import TarjetaViaje from "./Viaje";
 
+/**
+ * Componente que carga y muestra los viajes destacados disponibles.
+ * Filtra los viajes para mostrar solo aquellos cuyo inicio es a partir de mañana.
+ * Muestra mensajes de carga, error o cuando no hay viajes disponibles.
+ * 
+ * @component
+ * @returns {JSX.Element} Sección con tarjetas de viajes destacados.
+ */
 export default function ViajesDestacados() {
   const [viajes, setViajes] = useState([]);
   const [error, setError] = useState(null);

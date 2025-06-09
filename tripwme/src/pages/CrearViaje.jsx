@@ -2,6 +2,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+/**
+ * Componente CrearViaje.
+ * 
+ * Renderiza un formulario para crear un nuevo viaje.
+ * Gestiona el estado del formulario, validaciones básicas y envía los datos a la API.
+ * Navega a la lista de viajes tras crear un viaje exitosamente.
+ * 
+ * @component
+ * @returns {JSX.Element} Formulario para creación de viajes.
+ */
 export default function CrearViaje() {
   const [viaje, setViaje] = useState({
     destino: "",
@@ -14,11 +24,13 @@ export default function CrearViaje() {
 
   const navigate = useNavigate();
 
+  // Actualiza el estado del formulario según el input del usuario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setViaje({ ...viaje, [name]: value });
   };
 
+  // Maneja el envío del formulario, con validaciones y llamada a la API
   const handleSubmit = async (e) => {
     e.preventDefault();
   

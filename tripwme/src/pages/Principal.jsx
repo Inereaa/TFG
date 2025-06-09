@@ -5,6 +5,16 @@ import FooterPX from "../components/FooterPX";
 import ViajesDestacados from "../components/ViajesDestacados";
 import { motion } from "framer-motion";
 
+/**
+ * Componente Principal
+ * 
+ * Página principal que muestra la navegación, un banner animado con presentación,
+ * un buscador de viajes, viajes destacados y el pie de página.
+ * Utiliza animaciones con Framer Motion para las transiciones visuales.
+ * 
+ * @component
+ * @returns {JSX.Element} Página principal con contenido destacado y navegación
+ */
 export default function Principal() {
     return (
       <div className="bg-MAIN relative min-h-screen">

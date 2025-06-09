@@ -2,12 +2,28 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
+/**
+ * Componente de búsqueda principal para la pantalla de inicio.
+ * Permite al usuario ingresar un destino y una fecha, y redirige
+ * a la página de resultados de viajes con filtros aplicados por query string.
+ *
+ * @component
+ * @example
+ * return <BuscarPX />
+ *
+ * @returns {JSX.Element} Formulario de búsqueda con inputs de texto y fecha, y un botón para buscar viajes.
+ */
 export default function BuscarPX() {
   const navigate = useNavigate();
 
   const [destino, setDestino] = useState('');
   const [fecha, setFecha] = useState('');
 
+  /**
+   * Maneja el clic en el botón de búsqueda.
+   * Crea la query string a partir del destino y fecha seleccionados
+   * y navega a la página de resultados.
+   */
   const handleClick = () => {
     const queryParams = new URLSearchParams();
     if (destino) queryParams.append("destino", destino);

@@ -1,6 +1,16 @@
 
 import { useState } from "react";
 
+/**
+ * Componente Ordenar que permite seleccionar el criterio de ordenación para una lista.
+ *
+ * @param {Object} props
+ * @param {function(string): void} props.setOrden - Función para actualizar el criterio de ordenación seleccionado en el componente padre.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} Un select desplegable para elegir el orden.
+ */
 export default function Ordenar({ setOrden }) {
   const [orden, setOrdenInternal] = useState("Precio (más caro primero)");
 

@@ -2,6 +2,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+/**
+ * Componente Login
+ * 
+ * Permite al usuario iniciar sesión con su email y contraseña.
+ * Si el usuario no existe, crea una nueva cuenta automáticamente.
+ * Al iniciar sesión correctamente, almacena el token en localStorage y redirige.
+ * 
+ * @component
+ * @returns {JSX.Element} Formulario de inicio de sesión y creación de usuario
+ */
 export default function Login() {
   const [usuario, setUsuario] = useState({
     email: "",
@@ -10,11 +20,20 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  /**
+   * Maneja el cambio en los inputs de email y password
+   * @param {React.ChangeEvent<HTMLInputElement>} e Evento de cambio en input
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUsuario((prev) => ({ ...prev, [name]: value }));
   };
 
+  /**
+   * Maneja el envío del formulario.
+   * Intenta iniciar sesión; si no existe el usuario, lo crea y luego inicia sesión.
+   * @param {React.FormEvent<HTMLFormElement>} e Evento submit del formulario
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -31,6 +50,7 @@ export default function Login() {
         navigate("/viajes");
   
       } else if (loginResponse.status === 401) {
+        // Usuario no existe, crear nuevo usuario
         const crearUsuario = {
           email: usuario.email,
           password: usuario.password,
@@ -45,7 +65,7 @@ export default function Login() {
   
         if (crearResponse.ok) {
           alert("Usuario creado correctamente.");
-  
+          // Intentar login nuevamente
           const nuevoLoginResponse = await fetch("http://tripwme.work.gd:8080/api/usuarios/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

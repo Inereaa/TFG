@@ -4,6 +4,16 @@ import Navegacion from "../components/Navegacion";
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
 
+/**
+ * Componente Actividades.
+ * 
+ * Obtiene y muestra una lista de actividades disponibles.
+ * Presenta cada actividad en una tarjeta con animaciones al cargar.
+ * Incluye navegación superior y pie de página.
+ * 
+ * @component
+ * @returns {JSX.Element} Página con listado animado de actividades.
+ */
 export default function Actividades() {
   const [actividades, setActividades] = useState([]);
 

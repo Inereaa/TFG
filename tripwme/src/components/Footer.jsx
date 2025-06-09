@@ -1,4 +1,11 @@
 
+/**
+ * Componente Footer que muestra el pie de página del sitio web.
+ * Incluye el logo, enlaces de información legal y derechos de autor.
+ *
+ * @component
+ * @returns {JSX.Element} El componente de pie de página.
+ */
 export default function Footer() {
     return (
         <footer className="flex flex-col items-center mt-100">

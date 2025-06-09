@@ -3,6 +3,22 @@ import { useEffect, useState } from "react";
 import Viaje from "./Viaje";
 import { motion } from "framer-motion";
 
+/**
+ * Componente ListarViajes que muestra una lista de viajes filtrados y ordenados.
+ * Obtiene los viajes desde una API, filtra según los filtros recibidos y ordena según la opción seleccionada.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.filtros - Objeto con los filtros aplicados.
+ * @param {string} props.filtros.destino - Texto para filtrar por destino.
+ * @param {string} props.filtros.fechaInicio - Fecha mínima para filtrar viajes.
+ * @param {number} props.filtros.precioMaximo - Precio máximo para filtrar viajes.
+ * @param {string[]} props.filtros.continentes - Lista de continentes seleccionados para filtrar.
+ * @param {number} props.filtros.personasMaximo - Número máximo de personas para filtrar.
+ * @param {string} props.orden - Criterio de ordenación ("Precio (más caro primero)", "Precio (más bajo primero)", "Fecha (más próxima primero)", "Fecha (más lejana primero)").
+ * 
+ * @returns {JSX.Element} Lista animada de viajes filtrados y ordenados.
+ */
 export default function ListarViajes({ filtros, orden }) {
   const [viajes, setViajes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,27 +48,27 @@ export default function ListarViajes({ filtros, orden }) {
 
   const viajesFiltrados = viajes.filter((viaje) => {
     const fechaInicio = new Date(viaje.fechaInicio).toISOString().split("T")[0];
-  
+
     const coincideDestino = viaje.destino
       .toLowerCase()
       .includes(filtros.destino.toLowerCase());
-  
+
     const coincideFecha =
       !filtros.fechaInicio || fechaInicio >= filtros.fechaInicio;
-  
+
     const coincidePrecioMax =
-      !filtros.precioMaximo || viaje.presupuestoMinimo <= filtros.precioMaximo;    
-    
+      !filtros.precioMaximo || viaje.presupuestoMinimo <= filtros.precioMaximo;
+
     const coincideContinente =
-    !filtros.continentes || filtros.continentes.length === 0
-      ? true
-      : filtros.continentes.some((continente) =>
-          paisesPorContinente[continente]?.includes(viaje.destino)
-        );
-      
+      !filtros.continentes || filtros.continentes.length === 0
+        ? true
+        : filtros.continentes.some((continente) =>
+            paisesPorContinente[continente]?.includes(viaje.destino)
+          );
+
     const coincidePersonas =
-    !filtros.personasMaximo || viaje.maxPersonas <= filtros.personasMaximo;
-  
+      !filtros.personasMaximo || viaje.maxPersonas <= filtros.personasMaximo;
+
     return (
       coincideDestino &&
       coincideFecha &&
@@ -60,15 +76,15 @@ export default function ListarViajes({ filtros, orden }) {
       coincideContinente &&
       coincidePersonas &&
       fechaInicio > hoy
-    );    
+    );
   });
-  
+
   const ordenarViajes = (viajes) => {
     switch (orden) {
       case "Precio (más caro primero)":
-        return viajes.sort((a, b) => b.presupuestoMinimo - a.presupuestoMinimo );
+        return viajes.sort((a, b) => b.presupuestoMinimo - a.presupuestoMinimo);
       case "Precio (más bajo primero)":
-        return viajes.sort((a, b) => a.presupuestoMinimo - b.presupuestoMinimo );
+        return viajes.sort((a, b) => a.presupuestoMinimo - b.presupuestoMinimo);
       case "Fecha (más próxima primero)":
         return viajes.sort(
           (a, b) => new Date(a.fechaInicio) - new Date(b.fechaInicio)
@@ -81,7 +97,7 @@ export default function ListarViajes({ filtros, orden }) {
         return viajes;
     }
   };
-  
+
   const viajesOrdenados = ordenarViajes(viajesFiltrados);
 
   if (loading) return <p className="text-center mt-10">Cargando viajes...</p>;

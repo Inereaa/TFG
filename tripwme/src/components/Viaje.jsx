@@ -1,6 +1,27 @@
 
 import { useEffect, useState } from "react";
 
+/**
+ * Componente que muestra la información de un viaje y permite al usuario unirse, cancelar su plaza o, si es el organizador,
+ * cancelar el viaje completo.
+ *
+ * @param {Object} props
+ * @param {Object} props.viaje - Objeto con la información del viaje.
+ * @param {number} props.viaje.id - ID único del viaje.
+ * @param {string} props.viaje.destino - Destino del viaje.
+ * @param {string} props.viaje.fechaInicio - Fecha de inicio del viaje (formato ISO).
+ * @param {string} props.viaje.fechaFin - Fecha de fin del viaje (formato ISO).
+ * @param {number} props.viaje.presupuestoMinimo - Presupuesto mínimo necesario para el viaje.
+ * @param {number} props.viaje.minPersonas - Número mínimo de personas para el viaje.
+ * @param {number} props.viaje.maxPersonas - Número máximo de personas para el viaje.
+ * @param {Object} props.viaje.usuarioOrganizador - Información del usuario organizador.
+ * @param {number} props.viaje.usuarioOrganizador.id - ID del organizador.
+ * @param {string} props.viaje.usuarioOrganizador.nombre - Nombre o email del organizador.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} Una tarjeta con detalles del viaje y opciones para interactuar según el estado del usuario.
+ */
 export default function TarjetaViaje({ viaje }) {
     const [usuarioAutenticado, setUsuarioAutenticado] = useState(false);
     const [misViajes, setMisViajes] = useState([]);

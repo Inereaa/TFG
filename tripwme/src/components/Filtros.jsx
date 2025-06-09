@@ -1,52 +1,78 @@
 
 import { useState } from "react";
 
+/**
+ * Componente lateral que permite aplicar filtros avanzados a los viajes,
+ * incluyendo precio máximo, continentes y número máximo de personas.
+ *
+ * @component
+ * @example
+ * const [filtros, setFiltros] = useState({});
+ * return <Filtros setFiltros={setFiltros} />
+ *
+ * @param {Object} props - Propiedades del componente.
+ * @param {Function} props.setFiltros - Función para actualizar los filtros aplicados.
+ *
+ * @returns {JSX.Element} Panel lateral con controles de filtro.
+ */
 export default function Filtros({ setFiltros }) {
-    const [precioMaximo, setPrecioMaximo] = useState(null);
-    const [continentesSeleccionados, setContinentesSeleccionados] = useState([]);
-    const [personasMaximo, setPersonasMaximo] = useState(20);
-  
-    const handlePrecioMaximoChange = (e) => {
-      const value = e.target.value;
-      setPrecioMaximo(value);
-      setFiltros((prev) => ({
-        ...prev,
-        precioMaximo: parseFloat(value),
-      }));
-    };
+  const [precioMaximo, setPrecioMaximo] = useState(null);
+  const [continentesSeleccionados, setContinentesSeleccionados] = useState([]);
+  const [personasMaximo, setPersonasMaximo] = useState(20);
 
-    const paisesPorContinente = {
-      Europa: ["España", "Francia", "Italia", "Alemania", "Grecia"],
-      Asia: ["Japón", "China", "Corea del Sur"],
-      América: ["Estados Unidos", "México", "Brasil", "Argentina", "Colombia"],
-      África: ["Marruecos", "Egipto"],
-      Oceanía: ["Australia"],
-    };
-    
-    const handleContinenteChange = (e) => {
-      const continente = e.target.value;
-      setContinentesSeleccionados((prev) =>
-        e.target.checked
-          ? [...prev, continente]
-          : prev.filter((c) => c !== continente)
-      );
-    
-      setFiltros((prev) => ({
-        ...prev,
-        continentes: e.target.checked
-          ? [...(prev.continentes || []), continente]
-          : (prev.continentes || []).filter((c) => c !== continente),
-      }));
-    };
+  /**
+   * Maneja el cambio en el filtro de precio máximo.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - Evento del input range.
+   */
+  const handlePrecioMaximoChange = (e) => {
+    const value = e.target.value;
+    setPrecioMaximo(value);
+    setFiltros((prev) => ({
+      ...prev,
+      precioMaximo: parseFloat(value),
+    }));
+  };
 
-    const handlePersonasMaximoChange = (e) => {
-      const value = parseInt(e.target.value);
-      setPersonasMaximo(value);
-      setFiltros((prev) => ({
-        ...prev,
-        personasMaximo: value,
-      }));
-    };
+  const paisesPorContinente = {
+    Europa: ["España", "Francia", "Italia", "Alemania", "Grecia"],
+    Asia: ["Japón", "China", "Corea del Sur"],
+    América: ["Estados Unidos", "México", "Brasil", "Argentina", "Colombia"],
+    África: ["Marruecos", "Egipto"],
+    Oceanía: ["Australia"],
+  };
+
+  /**
+   * Maneja la selección de continentes para filtrar resultados.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - Evento del checkbox.
+   */
+  const handleContinenteChange = (e) => {
+    const continente = e.target.value;
+    setContinentesSeleccionados((prev) =>
+      e.target.checked
+        ? [...prev, continente]
+        : prev.filter((c) => c !== continente)
+    );
+
+    setFiltros((prev) => ({
+      ...prev,
+      continentes: e.target.checked
+        ? [...(prev.continentes || []), continente]
+        : (prev.continentes || []).filter((c) => c !== continente),
+    }));
+  };
+
+  /**
+   * Maneja el cambio en el número máximo de personas.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - Evento del input range.
+   */
+  const handlePersonasMaximoChange = (e) => {
+    const value = parseInt(e.target.value);
+    setPersonasMaximo(value);
+    setFiltros((prev) => ({
+      ...prev,
+      personasMaximo: value,
+    }));
+  };
 
   return (
     <aside className="w-1/4 bg-[#f2dede] p-4 rounded-xl shadow-md hidden md:block xl:flex flex-col gap-6 h-[calc(100vh-2rem)] overflow-y-auto">
