@@ -38,14 +38,16 @@ jobs:
           jsdoc -c jsdoc.json
 
       # INSTALAR JSEST (para pruebas unitarias)
-      # - name: Instalar Jest para pruebas unitarias
-       #  run: |
-         #  npm install --save-dev jest
+      - name: Instalar Jest para pruebas unitarias
+        working-directory: ./tripwme
+        run: |
+          npm install --save-dev jest
 
       # REALIZAR LAS PRUEBAS UNITARIAS
-     #  - name: Pruebas unitarias
-      #   run: |
-       #    npm test
+      - name: Pruebas unitarias
+        working-directory: ./tripwme
+        run: |
+         npm test
 
       # CONFIGURAR CREDENCIALES AWS
       - name: Configurar credenciales AWS
