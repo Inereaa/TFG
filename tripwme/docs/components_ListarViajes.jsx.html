@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/ListarViajes.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/ListarViajes.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+import { useEffect, useState } from "react";
+import Viaje from "./Viaje";
+import { motion } from "framer-motion";
+
+/**
+ * Componente ListarViajes que muestra una lista de viajes filtrados y ordenados.
+ * Obtiene los viajes desde una API, filtra según los filtros recibidos y ordena según la opción seleccionada.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.filtros - Objeto con los filtros aplicados.
+ * @param {string} props.filtros.destino - Texto para filtrar por destino.
+ * @param {string} props.filtros.fechaInicio - Fecha mínima para filtrar viajes.
+ * @param {number} props.filtros.precioMaximo - Precio máximo para filtrar viajes.
+ * @param {string[]} props.filtros.continentes - Lista de continentes seleccionados para filtrar.
+ * @param {number} props.filtros.personasMaximo - Número máximo de personas para filtrar.
+ * @param {string} props.orden - Criterio de ordenación ("Precio (más caro primero)", "Precio (más bajo primero)", "Fecha (más próxima primero)", "Fecha (más lejana primero)").
+ * 
+ * @returns {JSX.Element} Lista animada de viajes filtrados y ordenados.
+ */
+export default function ListarViajes({ filtros, orden }) {
+  const [viajes, setViajes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const paisesPorContinente = {
+    Europa: ["España", "Francia", "Italia", "Alemania", "Grecia"],
+    Asia: ["Japón", "China", "Corea del Sur"],
+    América: ["Estados Unidos", "México", "Brasil", "Argentina", "Colombia"],
+    África: ["Marruecos", "Egipto"],
+    Oceanía: ["Australia"],
+  };
+
+  useEffect(() => {
+    fetch("http://tripwme.work.gd:8080/api/viajes")
+      .then((res) => res.json())
+      .then((data) => {
+        setViajes(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error al cargar los viajes:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  const hoy = new Date().toISOString().split("T")[0];
+
+  const viajesFiltrados = viajes.filter((viaje) => {
+    const fechaInicio = new Date(viaje.fechaInicio).toISOString().split("T")[0];
+
+    const coincideDestino = viaje.destino
+      .toLowerCase()
+      .includes(filtros.destino.toLowerCase());
+
+    const coincideFecha =
+      !filtros.fechaInicio || fechaInicio >= filtros.fechaInicio;
+
+    const coincidePrecioMax =
+      !filtros.precioMaximo || viaje.presupuestoMinimo &lt;= filtros.precioMaximo;
+
+    const coincideContinente =
+      !filtros.continentes || filtros.continentes.length === 0
+        ? true
+        : filtros.continentes.some((continente) =>
+            paisesPorContinente[continente]?.includes(viaje.destino)
+          );
+
+    const coincidePersonas =
+      !filtros.personasMaximo || viaje.maxPersonas &lt;= filtros.personasMaximo;
+
+    return (
+      coincideDestino &amp;&amp;
+      coincideFecha &amp;&amp;
+      coincidePrecioMax &amp;&amp;
+      coincideContinente &amp;&amp;
+      coincidePersonas &amp;&amp;
+      fechaInicio > hoy
+    );
+  });
+
+  const ordenarViajes = (viajes) => {
+    switch (orden) {
+      case "Precio (más caro primero)":
+        return viajes.sort((a, b) => b.presupuestoMinimo - a.presupuestoMinimo);
+      case "Precio (más bajo primero)":
+        return viajes.sort((a, b) => a.presupuestoMinimo - b.presupuestoMinimo);
+      case "Fecha (más próxima primero)":
+        return viajes.sort(
+          (a, b) => new Date(a.fechaInicio) - new Date(b.fechaInicio)
+        );
+      case "Fecha (más lejana primero)":
+        return viajes.sort(
+          (a, b) => new Date(b.fechaInicio) - new Date(a.fechaInicio)
+        );
+      default:
+        return viajes;
+    }
+  };
+
+  const viajesOrdenados = ordenarViajes(viajesFiltrados);
+
+  if (loading) return &lt;p className="text-center mt-10">Cargando viajes...&lt;/p>;
+
+  return (
+    &lt;div className="flex flex-col gap-10">
+      {viajesOrdenados.length > 0 ? (
+        viajesOrdenados.map((viaje, index) => (
+          &lt;motion.div
+            key={viaje.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.4 }}
+          >
+            &lt;Viaje viaje={viaje} />
+          &lt;/motion.div>
+        ))
+      ) : (
+        &lt;p className="text-center text-gray-500 mt-6">No se encontraron viajes.&lt;/p>
+      )}
+    &lt;/div>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jun 09 2025 18:09:13 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
