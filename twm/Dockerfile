@@ -29,9 +29,9 @@ RUN composer install --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
 
 # Certificados
-COPY ./tf/certificate.crt /etc/ssl/certs/certificate.crt
-COPY ./tf/ca_bundle.crt /etc/ssl/certs/ca_bundle.crt
-COPY ./tf/private.key /etc/ssl/private/private.key
+COPY ../tf/certificate.crt /etc/ssl/certs/certificate.crt
+COPY ../tf/ca_bundle.crt /etc/ssl/certs/ca_bundle.crt
+COPY ../tf/private.key /etc/ssl/private/private.key
 
 EXPOSE 80 443
 
