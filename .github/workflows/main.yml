@@ -26,14 +26,16 @@ jobs:
         uses: actions/checkout@v4
 
       # INSTALAR JSDOC
-      # - name: Instalar JSDoc
-       #  run: |
-        #   npm install -g jsdoc
+      - name: Instalar JSDoc
+        working-directory: ./tripwme
+        run: |
+          npm install -g jsdoc
 
       # DOCUMENTAR EL JAVASCRIPT
-      # - name: Generar la documentación JavaScript
-       #  run: |
-          # jsdoc ./js/login.js -d ./js/docs
+      - name: Generar la documentación JavaScript
+        working-directory: ./tripwme
+        run: |
+          jsdoc -c jsdoc.json
 
       # INSTALAR JSEST (para pruebas unitarias)
       # - name: Instalar Jest para pruebas unitarias
