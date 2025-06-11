@@ -38,4 +38,6 @@ COPY ./certs/private.key /etc/ssl/private/private.key
 
 EXPOSE 80 443
 
+RUN a2ensite 000-default.conf
+
 CMD ["apache2-foreground"]
