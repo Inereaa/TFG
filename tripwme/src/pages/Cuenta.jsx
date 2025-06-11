@@ -26,7 +26,7 @@ export default function Cuenta() {
   const [errorTelefono, setErrorTelefono] = useState("");
   const navigate = useNavigate();
   const inputFotoRef = useRef();
-  const baseURL = "http://tripwme.work.gd:8080";
+  const baseURL = "https://tripwme.work.gd:8443";
   const [viajes, setViajes] = useState([]);
   const [cargandoViajes, setCargandoViajes] = useState(true);
   const prefijosComunes = ["+34", "+1", "+44", "+33", "+49", "+39", "+52", "+55"];
@@ -46,7 +46,7 @@ export default function Cuenta() {
       }
 
       try {
-        const res = await fetch("http://tripwme.work.gd:8080/api/cuenta", {
+        const res = await fetch("https://tripwme.work.gd:8443/api/cuenta", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +67,7 @@ export default function Cuenta() {
         setNuevoTelefono(data.telefono ? data.telefono.slice(-9) : "");
         setPrefijo(data.telefono ? data.telefono.slice(0, data.telefono.length - 9) : "+34");
 
-        const resActualizar = await fetch("http://tripwme.work.gd:8080/api/usuario/actualizar-viajes", {
+        const resActualizar = await fetch("https://tripwme.work.gd:8443/api/usuario/actualizar-viajes", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -104,7 +104,7 @@ export default function Cuenta() {
       const token = localStorage.getItem("token");
 
       try {
-        const res = await fetch("http://tripwme.work.gd:8080/api/mis-viajes", {
+        const res = await fetch("https://tripwme.work.gd:8443/api/mis-viajes", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -149,7 +149,7 @@ export default function Cuenta() {
 
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://tripwme.work.gd:8080/api/cuenta", {
+      const res = await fetch("https://tripwme.work.gd:8443/api/cuenta", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -196,7 +196,7 @@ export default function Cuenta() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://tripwme.work.gd:8080/api/subir-foto", {
+      const res = await fetch("https://tripwme.work.gd:8443/api/subir-foto", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -265,7 +265,7 @@ export default function Cuenta() {
               onChange={subirFotoPerfil}
             />
             <div className="absolute inset-0 bg-[rgba(31,41,55,0.5)] flex items-center justify-center text-white text-sm font-semibold rounded-full opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none">
-              <svg xmlns="http://www.w3.org/2000/svg" 
+              <svg xmlns="https://www.w3.org/2000/svg" 
                   className="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M16.768 4.768a2 2 0 112.828 2.828L7 20.172H4v-3L16.768 4.768z" />
               </svg>

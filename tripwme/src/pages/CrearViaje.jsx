@@ -66,7 +66,7 @@ export default function CrearViaje() {
     }
   
     try {
-      const response = await fetch("http://tripwme.work.gd:8080/api/viajes", {
+      const response = await fetch("https://tripwme.work.gd:8443/api/viajes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
