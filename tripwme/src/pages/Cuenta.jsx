@@ -26,7 +26,7 @@ export default function Cuenta() {
   const [errorTelefono, setErrorTelefono] = useState("");
   const navigate = useNavigate();
   const inputFotoRef = useRef();
-  const baseURL = "https://tripwme.work.gd:8080";
+  const baseURL = "https://tripwme.work.gd";
   const [viajes, setViajes] = useState([]);
   const [cargandoViajes, setCargandoViajes] = useState(true);
   const prefijosComunes = ["+34", "+1", "+44", "+33", "+49", "+39", "+52", "+55"];
@@ -46,7 +46,7 @@ export default function Cuenta() {
       }
 
       try {
-        const res = await fetch("https://tripwme.work.gd:8080/api/cuenta", {
+        const res = await fetch("https://tripwme.work.gd/api/cuenta", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +67,7 @@ export default function Cuenta() {
         setNuevoTelefono(data.telefono ? data.telefono.slice(-9) : "");
         setPrefijo(data.telefono ? data.telefono.slice(0, data.telefono.length - 9) : "+34");
 
-        const resActualizar = await fetch("https://tripwme.work.gd:8080/api/usuario/actualizar-viajes", {
+        const resActualizar = await fetch("https://tripwme.work.gd/api/usuario/actualizar-viajes", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -104,7 +104,7 @@ export default function Cuenta() {
       const token = localStorage.getItem("token");
 
       try {
-        const res = await fetch("https://tripwme.work.gd:8080/api/mis-viajes", {
+        const res = await fetch("https://tripwme.work.gd/api/mis-viajes", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -149,7 +149,7 @@ export default function Cuenta() {
 
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("https://tripwme.work.gd:8080/api/cuenta", {
+      const res = await fetch("https://tripwme.work.gd/api/cuenta", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -196,7 +196,7 @@ export default function Cuenta() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("https://tripwme.work.gd:8080/api/subir-foto", {
+      const res = await fetch("https://tripwme.work.gd/api/subir-foto", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
