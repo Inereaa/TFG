@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
     environment:
       TRUSTED_PROXIES: '0.0.0.0/0'
-      TRUSTED_HOSTS: '^.+$'
+      TRUSTED_HOSTS: '^.+$$'
       DATABASE_URL: "mysql://admin:tfgtripwme@symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com:3306/tripwme"
                   # "mysql://admin:tfgtripwme@symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com:3306/tripwme?sslmode=verify-ca&sslrootcert=/etc/ssl/certs/eu-south-2-bundle.pem"
     networks:
