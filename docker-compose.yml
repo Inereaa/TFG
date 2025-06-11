@@ -22,8 +22,8 @@ services:
       - "8443:443"
     restart: unless-stopped
     environment:
-      DATABASE_URL: "mysql://admin:tfgtripwme@symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com:3306/tripwme?sslmode=verify-ca&sslrootcert=/etc/ssl/certs/eu-south-2-bundle.pem"
-                  # "mysql://admin:tfgtripwme@symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com:3306/tripwme"
+      DATABASE_URL: "mysql://admin:tfgtripwme@symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com:3306/tripwme"
+                  # "mysql://admin:tfgtripwme@symfony-db.c5qwygqc8o89.us-east-1.rds.amazonaws.com:3306/tripwme?sslmode=verify-ca&sslrootcert=/etc/ssl/certs/eu-south-2-bundle.pem"
     networks:
       - app-network
 
