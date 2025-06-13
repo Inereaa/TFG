@@ -28,13 +28,18 @@ security:
             jwt: ~
 
     access_control:
-        - { path: ^/api, roles: PUBLIC_ACCESS }
+        # Rutas públicas (sin autenticación)
+        - { path: ^/api/viajes$, roles: PUBLIC_ACCESS, methods: [GET] }               # Listar todos los viajes
+        - { path: ^/api/viajes/destacados$, roles: PUBLIC_ACCESS, methods: [GET] }    # Viajes destacados
+        - { path: ^/api/actividades$, roles: PUBLIC_ACCESS, methods: [GET] }          # Actividades
+
+        # Rutas de login y creación de usuario públicas
+        - { path: ^/api/usuarios/login$, roles: PUBLIC_ACCESS, methods: [POST] }      # Login
+        - { path: ^/api/usuarios$, roles: PUBLIC_ACCESS, methods: [POST] }            # Crear usuario
+
+        # Rutas protegidas, es decir, TOKEN necesario
+        - { path: ^/api/, roles: ROLE_USER }
+
     # access_control:
-    #     # Login abierto para todos (anónimo)
-    #     - { path: ^/api/usuarios/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-
-    #     # Crear usuario abierto para POST (registro)
-    #     - { path: ^/api/usuarios$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
-
-    #     # Cualquier ruta que empiece por /api/ necesita ROLE_USER (usuario autenticado)
-    #     - { path: ^/api/, roles: ROLE_USER }
+    #     - { path: ^/api, roles: PUBLIC_ACCESS }
+        
