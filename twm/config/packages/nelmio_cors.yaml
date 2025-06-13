@@ -2,7 +2,7 @@
 nelmio_cors:
     defaults:
         allow_credentials: true
-        allow_origin: ['http://tripwme.work.gd', 'http://tripwme.work.gd:8080', 'http://tripwme.work.gd:80']
+        allow_origin: ['https://tripwme.work.gd', 'https://tripwme.work.gd:8080', 'https://tripwme.work.gd:80']
         allow_headers: ['Content-Type', 'Authorization']
         allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE']
         max_age: 3600
